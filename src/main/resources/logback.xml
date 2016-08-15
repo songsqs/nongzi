@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user -->
+<!-- -->
+<!-- For professional support please see -->
+<!-- http://www.qos.ch/shop/products/professionalSupport -->
+<!-- -->
+<configuration>
+    <property name="app.logs.path" value="F:/workspace/logs" />
+    <property name="app.name" value="nongzi" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %c{1}:%L - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="APP"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
+        <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy -->
+        <!--for further documentation -->
+        <File>${app.logs.path}/app.log</File>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %c{1}:%L - %m%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${app.logs.path}/app.log.%d{yyyy-MM-dd}
+            </fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    
+    <appender name="STAT"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
+        <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy -->
+        <!--for further documentation -->
+        <File>${app.logs.path}/stat.log</File>
+        <encoder>
+            <pattern>%-5level^|%d{yyyy-MM-dd HH:mm:ss.SSS}^|${app.name}^|%m%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${app.logs.path}/stat.log.%d{yyyy-MM-dd}
+            </fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    <logger name="stat" additivity="false" level="INFO">
+        <appender-ref ref="STAT" />
+    </logger>
+    
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="APP" />
+    </root>
+</configuration>

@@ -54,13 +54,6 @@
 	<!-- 依赖项定义 -->
 	<dependencies>
 		<dependency>
-			<groupId>com.ucredit.common</groupId>
-			<artifactId>uc-common-utils</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20140107</version>
@@ -249,7 +242,11 @@
 		</dependency>
 
 		<!-- JSON begin -->
-
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.7</version>
+		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -261,45 +258,6 @@
 			<version>${jackson.version}</version>
 		</dependency>
 		<!-- JSON end -->
-
-		<!-- LOGGING begin -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<!-- common-logging 实际调用slf4j -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<!-- java.util.logging 实际调用slf4j -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jul-to-slf4j</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.lazyluke</groupId>
-			<artifactId>log4jdbc-remix</artifactId>
-			<version>0.2.7</version>
-			<scope>runtime</scope>
-		</dependency>
-		<!-- LOGGING end -->
 
 		<!-- logback begin -->
 		<!-- commons-logging调用切换为slf4j-api调用 -->
@@ -323,11 +281,6 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.1.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.logback-extensions</groupId>
-			<artifactId>logback-ext-spring</artifactId>
-			<version>0.1.2</version>
 		</dependency>
 		<!-- logback end -->
 

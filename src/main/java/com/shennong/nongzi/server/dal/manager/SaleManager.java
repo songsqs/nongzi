@@ -3,6 +3,8 @@ package com.shennong.nongzi.server.dal.manager;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,16 +16,18 @@ import com.shennong.nongzi.server.dal.dao.SaleMapper;
 @Component
 public class SaleManager {
 	
+	private static final Logger logger = LoggerFactory.getLogger(SaleManager.class);
+
 	@Autowired
 	private SaleMapper saleMapper;
 
 	public List<Sale> selectSaleListByParam(Map<String, Object> param) {
 		try {
 			List<Sale> saleList = saleMapper.selectSaleListByParam(param);
-			System.out.println("selectSaleListByParam,param:" + param + ",size:" + saleList.size());
+			logger.info("selectSaleListByParam,param:" + param + ",size:" + saleList.size());
 			return saleList;
 		} catch (Exception e) {
-			e.printStackTrace(System.err);
+			logger.error("selectSaleListByParam", e);
 			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
 		}
 	}
@@ -31,10 +35,10 @@ public class SaleManager {
 	public int insertSelective(Sale sale) {
 		try {
 			int result = saleMapper.insert(sale);
-			System.out.println("insertSelective,sale:" + sale + ",result:" + result);
+			logger.info("insertSelective,sale:" + sale + ",result:" + result);
 			return result;
 		} catch (Exception e) {
-			e.printStackTrace(System.err);
+			logger.error("error when insertSelective", e);
 			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
 		}
 	}

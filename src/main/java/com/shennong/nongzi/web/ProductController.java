@@ -35,14 +35,11 @@ public class ProductController {
 	@RequestMapping(value = "add.do", method = RequestMethod.POST)
 	public String addProductDo(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes,
 			Product product) {
-		System.out.println(product);
-		productService.addProduct(product);
 		return "product/product_add";
 	}
 
 	@RequestMapping(value = "list")
 	public String listProduct(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
-		System.out.println("list product");
 		List<Product> productList = productService.getAllProductList();
 		model.addAttribute("productArray", productList);
 		return "product/product_list";
@@ -81,8 +78,6 @@ public class ProductController {
 	public String getProductDo(HttpServletRequest request, @RequestParam(value = "name", required = true) String name) {
 
 		List<Product> productList = productService.getProductListByName(name);
-
-		System.out.println("getProduct.do,name:" + name + ",result:" + JSONObject.toJSONString(productList));
 
 		return JSONObject.toJSONString(productList);
 	}

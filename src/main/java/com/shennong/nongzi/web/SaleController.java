@@ -21,6 +21,7 @@ import com.shennong.nongzi.server.service.sale.SaleService;
 @RequestMapping("sale")
 public class SaleController {
 
+
 	@Autowired
 	private SaleService saleService;
 
@@ -50,7 +51,6 @@ public class SaleController {
 
 	@RequestMapping(value = "add.do", method = RequestMethod.POST)
 	public String addSaleDo(HttpServletRequest request, Sale sale) {
-		System.out.println("addSaleDo,sale:" + sale);
 		saleService.addSale(sale);
 		return "sale/sale_add";
 	}

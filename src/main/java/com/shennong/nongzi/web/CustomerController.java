@@ -37,7 +37,6 @@ public class CustomerController {
 
 	@RequestMapping(value = "add.do", method = RequestMethod.POST)
 	public String addCustomerDo(Customer customer) {
-		System.out.println(customer);
 		customerService.addCustomer(customer);
 		return "redirect:/customer/list";
 	}
@@ -87,8 +86,6 @@ public class CustomerController {
 	public String getCustomerDo(HttpServletRequest request,
 			@RequestParam(value = "name", required = true) String name) {
 		List<Customer> customerList = customerService.getCustomerListByName(name);
-
-		System.out.println("getCustomerDo,name:" + name + ",result:" + customerList);
 
 		return JSONObject.toJSONString(customerList);
 	}

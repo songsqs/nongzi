@@ -2,6 +2,8 @@ package com.shennong.nongzi.server.dal.manager;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,16 +15,18 @@ import com.shennong.nongzi.server.dal.dao.CustomerMapper;
 @Component
 public class CustomerManager {
 
+	private static final Logger logger = LoggerFactory.getLogger(CustomerManager.class);
+
 	@Autowired
 	private CustomerMapper customerMapper;
 
 	public Customer insert(Customer customer) {
 		try {
 			customerMapper.insert(customer);
-			System.out.println("insert,customer:" + customer);
+			logger.info("insert,customer:" + customer);
 			return customer;
 		} catch (Exception e) {
-			e.printStackTrace(System.err);
+			logger.error("error when insert customer", e);
 			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
 		}
 	}
@@ -30,10 +34,10 @@ public class CustomerManager {
 	public List<Customer> selectAllCustomerList() {
 		try {
 			List<Customer> customerList = customerMapper.selectAllCustomerList();
-			System.out.println("selectAllCustomer,customerList:" + customerList);
+			logger.info("selectAllCustomer,customerList:" + customerList);
 			return customerList;
 		} catch (Exception e) {
-			e.printStackTrace(System.err);
+			logger.error("error when selectAllCustomerList", e);
 			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
 		}
 	}
@@ -41,10 +45,10 @@ public class CustomerManager {
 	public Customer selectCustomerByCustomerId(Integer customerId) {
 		try {
 			Customer customer = customerMapper.selectCustomerByCustomerId(customerId);
-			System.out.println("selectCustomerByCustomerId,customer:" + customer);
+			logger.info("selectCustomerByCustomerId,customer:" + customer);
 			return customer;
 		} catch (Exception e) {
-			e.printStackTrace(System.err);
+			logger.error("error when selectCustomerByCustomerId", e);
 			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
 		}
 	}
@@ -52,10 +56,10 @@ public class CustomerManager {
 	public int updateByPrimaryKeySelective(Customer customer) {
 		try {
 			int result = customerMapper.updateByPrimaryKeySelective(customer);
-			System.out.println("updateByPrimaryKeySelective,result:" + result);
+			logger.info("updateByPrimaryKeySelective,result:" + result);
 			return result;
 		} catch (Exception e) {
-			e.printStackTrace(System.err);
+			logger.error("error when updateByPrimaryKeySelective", e);
 			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
 		}
 	}
@@ -63,10 +67,10 @@ public class CustomerManager {
 	public int deleteCustomerByCustomerId(Integer customerId) {
 		try {
 			int result = customerMapper.deleteCustomerByCustomerId(customerId);
-			System.out.println("deleteCustomerByCustomerId,customerId:" + customerId + ",result:" + result);
+			logger.info("deleteCustomerByCustomerId,customerId:" + customerId + ",result:" + result);
 			return result;
 		} catch (Exception e) {
-			e.printStackTrace(System.err);
+			logger.error("error when deleteCustomerByCustomerId", e);
 			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
 		}
 	}
@@ -74,10 +78,10 @@ public class CustomerManager {
 	public List<Customer> selectCustomerListByName(String name) {
 		try {
 			List<Customer> customerList = customerMapper.selectCustomerListByName(name);
-			System.out.println("selectCustomerListByName,name:" + name + ",customerList size:" + customerList.size());
+			logger.info("selectCustomerListByName,name:" + name + ",customerList size:" + customerList.size());
 			return customerList;
 		} catch (Exception e) {
-			e.printStackTrace(System.err);
+			logger.error("error when selectCustomerListByName", e);
 			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
 		}
 	}
