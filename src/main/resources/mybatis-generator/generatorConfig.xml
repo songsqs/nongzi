@@ -32,52 +32,6 @@
 		
 		<!-- 要生成哪些表-->
 		<!-- 
-		<table tableName="user_earning_detail" domainObjectName="UserEarningDetail" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="user_earning_detail_id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="withdraw_bank_info" domainObjectName="WithdrawBankInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="withdraw_bank_info_id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="user_identity_info" domainObjectName="UserIdentityInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="user_identity_info_id" sqlStatement="JDBC"/>
-		</table>
-		 <table tableName="attachment_type" domainObjectName="AttachmentType" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="attachment_type_id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="industry_codes" domainObjectName="IndustryCodes" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="product_attachment_type" domainObjectName="ProductAttachmentType" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="lend_request_status" domainObjectName="LendRequestStatus" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="customer_identity_verify" domainObjectName="CustomerIdentityVerify" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="lend_request_user_info" domainObjectName="LendRequestUserInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="credit_info" domainObjectName="CreditInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="credit_info_id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="user_withdraw_detail" domainObjectName="UserWithdrawDetail" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="user_withdraw_detail_id" sqlStatement="JDBC"/>
-		</table>
-		-->
-		<!-- 
-		<table tableName="app_loan_product" domainObjectName="AppLoanProduct" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="app_user_group_info" domainObjectName="appUserGroupInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<generatedKey column="id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="user_touch_device" domainObjectName="UserTouchDevice" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		<table tableName="user_account_detail" domainObjectName="UserAccountDetail" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		 -->
 		<table tableName="customer" domainObjectName="Customer" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
 			<generatedKey column="customer_id" sqlStatement="JDBC" />
 		</table>
@@ -86,6 +40,13 @@
 		</table>
 		<table tableName="sale" domainObjectName="Sale" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
 			<generatedKey column="sale_id" sqlStatement="JDBC" />
+		</table>
+		-->
+		<table tableName="account" domainObjectName="Account" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+			<generatedKey column="account_id" sqlStatement="JDBC" />
+		</table>
+		<table tableName="account_role" domainObjectName="AccountRole" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+			<generatedKey column="account_role_id" sqlStatement="JDBC" />
 		</table>
 		<!-- 
 			Mybatis Generator最完整配置详解  http://www.jianshu.com/p/e09d2370b796
