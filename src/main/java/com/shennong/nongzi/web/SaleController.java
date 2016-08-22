@@ -21,7 +21,6 @@ import com.shennong.nongzi.server.service.sale.SaleService;
 @RequestMapping("sale")
 public class SaleController {
 
-
 	@Autowired
 	private SaleService saleService;
 
@@ -53,6 +52,26 @@ public class SaleController {
 	public String addSaleDo(HttpServletRequest request, Sale sale) {
 		saleService.addSale(sale);
 		return "sale/sale_add";
+	}
+
+	@RequestMapping("/chart/general")
+	public String getSaleGeneralChart(HttpServletRequest request, Model model,
+			@RequestParam(value = "customerName", required = false) String customerName,
+			@RequestParam(value = "productName", required = false) String productName,
+			@RequestParam(value = "timeBegin", required = false) String timeBegin,
+			@RequestParam(value = "timeEnd", required = false) String timeEnd) {
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("customerName", StringUtil.realString(customerName));
+		param.put("prodctName", StringUtil.realString(productName));
+		param.put("timeBegin", StringUtil.realString(timeBegin));
+		param.put("timeEnd", StringUtil.realString(timeEnd));
+
+		String option = saleService.getSaleGeneralOptionByParam(param);
+
+		model.addAttribute("option", option);
+
+		return "sale/sale_general_chart";
 	}
 
 }

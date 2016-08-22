@@ -20,6 +20,7 @@
 <script
 	src="${ctx}/resource/js/locales/bootstrap-datetimepicker.zh-CN.js"
 	type="text/javascript" charset="UTF-8"></script>
+<script type="text/javascript" src="${ctx}/resource/js/echarts/echarts.common.min.js"></script>
 
 <title>销售管理</title>
 </head>
@@ -94,53 +95,7 @@
 
 				</form>
 				<div class="container-fluid">
-					<table class="table table-bordered">
-						<thead>
-							<tr class="success">
-								<th>产品</th>
-								<th>姓名</th>
-								<th>单价(元)</th>
-								<th>数量</th>
-								<th>总价(元)</th>
-								<th>利润(元)</th>
-								<th>销售时间</th>
-								<th>操作</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:if test="${empty saleList}">
-								<tr>
-									<td colspan="8" align="center">
-										暂无数据
-									</td>
-								</tr>
-							</c:if>
-							<c:forEach items="${saleList}" var="sale">
-								<tr>
-									<td style="font-size: 150%">${sale.productName }</td>
-									<td style="font-size: 150%">${sale.customerName}</td>
-									<td style="font-size: 150%">${sale.price}</td>
-									<td style="font-size: 150%">${sale.num}</td>
-									<td style="font-size: 150%">${sale.totalPrice}</td>
-									<td style="font-size: 150%">${sale.profit}</td>
-									<td style="font-size: 150%"><fmt:formatDate
-											value="${sale.createTime}" pattern="yyyy-MM-dd" /></td>
-									<td>
-										<div class="btn-group">
-											<a href="/product/edit?productId=${product.productId }"
-												class="btn btn-primary">编辑</a> <a
-												onclick="deleteProduct(${product.productId})"
-												class="btn btn-primary">删除</a>
-										</div>
-									</td>
-								</tr>
-							</c:forEach>
-
-						</tbody>
-					</table>
-				</div>
-				<div class="section">
-					<a class="btn btn-default btn-lg" href="/sale/add">添加销售记录</a>
+					<div id="general_sale_chart" style="width:100%;height:600px"></div>
 				</div>
 			</div>
 		</div>
@@ -159,24 +114,17 @@
 			minView : 2,
 		});
 	
-		function deleteProduct(productIdParam) {
-			if(confirm("确定删除选中的产品？")){
-				$.ajax({
-					type : "post",
-					url : "/product/delete.do",
-					data : {
-						productId : productIdParam
-					},
-					success : function(msg) {
-						//对返回结果进行处理
-						alert("修改成功");
-						window.location.reload();
-					}
-				});
-			}else{
-				return false;
-			}
-		}
+		//构建图表
+		$(function(){
+			//给予准备好的dom,初始化echarts实例
+			var saleChart=echarts.init(document.getElementById('general_sale_chart'));
+			
+			//加载配置和数据
+			var option = ${option};
+			
+			//使用指定的配置和数据显示图表
+			saleChart.setOption(option);
+		});
 	</script>
 </body>
 </html>

@@ -297,6 +297,14 @@
 		</dependency>
 		<!-- GENERAL UTILS end -->
 
+		<!-- echarts begin -->
+		<dependency>
+			<groupId>com.github.abel533</groupId>
+			<artifactId>ECharts</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<!-- echarts end -->
+
 		<!-- TEST begin -->
 
 		<dependency>
@@ -659,7 +667,7 @@
 					<webAppConfig>
 						<contextPath>/</contextPath>
 					</webAppConfig>
-					<contextXml>${project.basedir}/src/test/resources/jetty-context.xml</contextXml>  
+					<contextXml>${project.basedir}/src/test/resources/jetty-context.xml</contextXml>
 				</configuration>
 			</plugin>
 
