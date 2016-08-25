@@ -9,16 +9,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css"
 	rel="stylesheet">
-<link href="${ctx}/resource/css/bootstrap-datetimepicker.min.css"
-	rel="stylesheet" />
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="${ctx}/resource/js/myScript.js" type="text/javascript"></script>
-<script src="${ctx}/resource/js/bootstrap-datetimepicker.min.js"
-	type="text/javascript" charset="UTF-8"></script>
-<script
-	src="${ctx}/resource/js/locales/bootstrap-datetimepicker.zh-CN.js"
-	type="text/javascript" charset="UTF-8"></script>
 
 <title>用户登录</title>
 

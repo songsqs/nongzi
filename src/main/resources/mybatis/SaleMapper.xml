@@ -169,8 +169,14 @@
   <sql id="where_condition">
   	<if test="param != null">
   		<where>
+  			<if test="param.customerId != null">
+  				customer_id = #{param.customerId}
+  			</if>
+  			<if test="param.productId != null">
+  				and product_id = #{param.productId}
+  			</if>
   			<if test="param.customerName != null">
-  				customer_name like '%${param.customerName}%'
+  				and customer_name like '%${param.customerName}%'
   			</if>
   			<if test="param.productName != null">
   				and product_name like '%${param.productName}%'

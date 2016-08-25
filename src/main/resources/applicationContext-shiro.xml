@@ -23,10 +23,9 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/favicon.ico = anon
+				/resource = anon
 				/login = authc
 				/logout = logout
-				/static/** = anon
-				/admin/** = roles[admin]
 				/** = authc
 			</value>
 		</property>

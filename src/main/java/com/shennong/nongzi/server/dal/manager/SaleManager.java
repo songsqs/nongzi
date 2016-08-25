@@ -42,4 +42,5 @@ public class SaleManager {
 			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
 		}
 	}
+
 }

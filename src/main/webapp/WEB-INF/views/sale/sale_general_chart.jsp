@@ -34,14 +34,7 @@
 				<%@ include file="../layout/sidebar.jsp"%>
 			</div>
 			<div class="col-md-9">
-				<div>
-					<ul class="lead nav nav-pills">
-						<li><a href="#">列表详情</a></li>
-						<li><a href="#">销售趋势图</a></li>
-						<li><a href="#">产品购买图</a></li>
-						<li><a href="#">客户购买图</a></li>
-					</ul>
-				</div>
+				<%@ include file="../layout/sale_nav.jsp" %>
 				<form action="" class="form-horizontal" role="form">
 					<table class="table">
 						<tbody>

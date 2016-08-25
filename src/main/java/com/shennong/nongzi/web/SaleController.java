@@ -74,4 +74,44 @@ public class SaleController {
 		return "sale/sale_general_chart";
 	}
 
+	@RequestMapping("/chart/product")
+	public String getProductChart(HttpServletRequest request, Model model,
+			@RequestParam(value = "productId", required = false) Integer productId,
+			@RequestParam(value = "productName", required = false) String productName,
+			@RequestParam(value = "timeBegin", required = false) String timeBegin,
+			@RequestParam(value = "timeEnd", required = false) String timeEnd) {
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("productId", productId);
+		param.put("productName", StringUtil.realString(productName));
+		param.put("timeBegin", StringUtil.realString(timeBegin));
+		param.put("timeEnd", StringUtil.realString(timeEnd));
+
+		Map<String, String> optionMap = saleService.getSaleProductOptionByParam(param);
+
+		model.addAllAttributes(optionMap);
+
+		return "sale/sale_product_chart";
+	}
+
+	@RequestMapping("/chart/customer")
+	public String getCustomerChart(HttpServletRequest request, Model model,
+			@RequestParam(value = "customerId", required = false) Integer customerId,
+			@RequestParam(value = "customerName", required = false) String customerName,
+			@RequestParam(value = "timeBegin", required = false) String timeBegin,
+			@RequestParam(value = "timeEnd", required = false) String timeEnd) {
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("customerId", customerId);
+		param.put("customerName", customerName);
+		param.put("timeBegin", timeBegin);
+		param.put("timeEnd", timeEnd);
+
+		Map<String, String> optionMap = saleService.getSaleCustomerOptionByParam(param);
+
+		model.addAllAttributes(optionMap);
+
+		return "sale/sale_customer_chart";
+	}
+
 }
