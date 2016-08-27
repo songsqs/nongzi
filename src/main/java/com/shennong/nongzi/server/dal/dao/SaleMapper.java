@@ -23,4 +23,7 @@ public interface SaleMapper {
 
 	List<Sale> selectSaleListByParam(@Param("param") Map<String, Object> param);
 
+	List<Sale> selectSaleListByParamWithLimit(@Param("param") Map<String, Object> param, @Param("begin") Integer begin,
+			@Param("limit") Integer limit);
+
 }

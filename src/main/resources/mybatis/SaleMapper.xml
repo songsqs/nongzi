@@ -197,5 +197,16 @@
   	from 
   	sale 
   	<include refid="where_condition" />
+  	order by create_time desc
+  </select>
+  
+  <select id="selectSaleListByParamWithLimit" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from 
+  	sale 
+  	<include refid="where_condition" />
+  	order by create_time desc
+  	limit #{begin},#{limit}
   </select>
 </mapper>

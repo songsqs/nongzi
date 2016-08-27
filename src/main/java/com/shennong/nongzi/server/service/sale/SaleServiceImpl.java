@@ -37,6 +37,7 @@ import com.github.abel533.echarts.series.Pie;
 import com.github.abel533.echarts.style.ItemStyle;
 import com.github.abel533.echarts.style.itemstyle.Emphasis;
 import com.shennong.nongzi.common.utils.Pair;
+import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Sale;
 import com.shennong.nongzi.server.dal.manager.SaleManager;
 
@@ -47,8 +48,33 @@ public class SaleServiceImpl implements SaleService {
 	private SaleManager saleManager;
 
 	@Override
-	public List<Sale> getSaleListByParam(Map<String, Object> param) {
-		List<Sale> saleList = saleManager.selectSaleListByParam(param);
+	public List<Sale> getSaleListByParam(Map<String, Object> param, Page page) {
+
+		Integer pageIndex = page.getPageIndex();
+		Integer pageSize = page.getPageSize();
+
+		// page已经保证pageIndex>=1
+		Integer begin = (pageIndex - 1) * pageSize;
+		// limit=pageSize+1用于确定是否有下一页
+		Integer limit = pageSize + 1;
+
+		List<Sale> saleList = saleManager.selectSaleListByParamWithLimit(param, begin, limit);
+
+		boolean isEmpty = CollectionUtils.isEmpty(saleList);
+
+		if (isEmpty || pageIndex <= 1) {
+			page.setHasPrevious(Boolean.FALSE);
+		} else {
+			page.setHasPrevious(Boolean.TRUE);
+		}
+
+		if (isEmpty || saleList.size() <= pageSize) {
+			page.setHasNext(Boolean.FALSE);
+		} else {
+			saleList.remove(saleList.size() - 1);
+			page.setHasNext(Boolean.TRUE);
+		}
+
 		return saleList;
 	}
 

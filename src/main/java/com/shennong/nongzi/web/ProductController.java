@@ -1,6 +1,9 @@
 package com.shennong.nongzi.web;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.alibaba.fastjson.JSONObject;
 import com.shennong.nongzi.common.exception.NongziException;
 import com.shennong.nongzi.common.utils.RES_STATUS;
+import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Product;
 import com.shennong.nongzi.server.service.product.ProductService;
 
@@ -39,9 +43,26 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "list")
-	public String listProduct(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
-		List<Product> productList = productService.getAllProductList();
+	public String listProduct(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "manufacturer", required = false) String manufacturer,
+			@RequestParam(value = "priceMin", required = false) BigDecimal priceMin,
+			@RequestParam(value = "priceMax", required = false) BigDecimal priceMax,
+			@RequestParam(value = "pageIndex", required = false, defaultValue = "1") Integer pageIndex,
+			@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) {
+
+		Page page = new Page(pageIndex, pageSize);
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("name", name);
+		param.put("manufacturer", manufacturer);
+		param.put("priceMin", priceMin);
+		param.put("priceMax", priceMax);
+
+		List<Product> productList = productService.getProductListByParam(param, page);
 		model.addAttribute("productArray", productList);
+		model.addAttribute("page", page);
+
 		return "product/product_list";
 	}
 

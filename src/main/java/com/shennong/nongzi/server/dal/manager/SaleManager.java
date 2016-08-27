@@ -43,4 +43,15 @@ public class SaleManager {
 		}
 	}
 
+	public List<Sale> selectSaleListByParamWithLimit(Map<String, Object> param, Integer begin, Integer limit) {
+		try {
+			List<Sale> saleList = saleMapper.selectSaleListByParamWithLimit(param, begin, limit);
+			logger.info("selectSaleListByParamWithLimit,param:" + param + ",begin:" + begin + ",limit:" + limit);
+			return saleList;
+		} catch (Exception e) {
+			logger.error("error when selectSaleListByParamWithLimit", e);
+			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
+		}
+	}
+
 }

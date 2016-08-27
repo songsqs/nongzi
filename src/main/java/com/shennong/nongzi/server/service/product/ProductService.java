@@ -1,7 +1,9 @@
 package com.shennong.nongzi.server.service.product;
 
 import java.util.List;
+import java.util.Map;
 
+import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Product;
 
 /**
@@ -32,6 +34,15 @@ public interface ProductService {
 	 * @return
 	 */
 	public List<Product> getAllProductList();
+
+	/**
+	 * 根据参数获取产品列表
+	 * 
+	 * @param param
+	 * @param page
+	 * @return
+	 */
+	public List<Product> getProductListByParam(Map<String, Object> param, Page page);
 
 	/**
 	 * 根据产品id获取产品信息

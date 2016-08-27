@@ -1,7 +1,9 @@
 package com.shennong.nongzi.server.service.customer;
 
 import java.util.List;
+import java.util.Map;
 
+import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Customer;
 
 public interface CustomerService {
@@ -26,6 +28,15 @@ public interface CustomerService {
 	 * @return
 	 */
 	public List<Customer> getAllCustomerList();
+
+	/**
+	 * 通过参数获取客户列表
+	 * 
+	 * @param param
+	 * @param page
+	 * @return
+	 */
+	public List<Customer> getCustomerListByParam(Map<String, Object> param, Page page);
 
 	/**
 	 * 通过客户id获取客户信息

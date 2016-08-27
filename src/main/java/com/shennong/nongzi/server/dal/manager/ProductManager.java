@@ -1,6 +1,7 @@
 package com.shennong.nongzi.server.dal.manager;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,6 +83,18 @@ public class ProductManager {
 			return productList;
 		} catch (Exception e) {
 			logger.error("error when selectProductListByName", e);
+			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
+		}
+	}
+
+	public List<Product> selectProdyctListByParamWithLimit(Map<String, Object> param, Integer begin, Integer limit) {
+		try {
+			List<Product> productList = productMapper.selectProductListByParamWithLimit(param, begin, limit);
+			logger.info("selectProdyctListByParamWithLimit,param:" + param + ",begin:" + begin + ",limit:" + limit
+					+ ",size:" + productList.size());
+			return productList;
+		} catch (Exception e) {
+			logger.error("error when selectProdyctListByParamWithLimit", e);
 			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
 		}
 	}

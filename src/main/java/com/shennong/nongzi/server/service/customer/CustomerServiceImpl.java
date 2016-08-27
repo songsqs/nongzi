@@ -2,10 +2,13 @@ package com.shennong.nongzi.server.service.customer;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Customer;
 import com.shennong.nongzi.server.dal.manager.CustomerManager;
 
@@ -32,6 +35,35 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<Customer> getAllCustomerList() {
 		List<Customer> customerList = customerManager.selectAllCustomerList();
+		return customerList;
+	}
+
+	@Override
+	public List<Customer> getCustomerListByParam(Map<String, Object> param, Page page) {
+
+		Integer pageIndex = page.getPageIndex();
+		Integer pageSize = page.getPageSize();
+
+		Integer begin = (pageIndex - 1) * pageSize;
+		Integer limit = pageSize + 1;
+
+		List<Customer> customerList = customerManager.selectCustomerLIstByParamWithLimit(param, begin, limit);
+
+		boolean isEmpty = CollectionUtils.isEmpty(customerList);
+
+		if (isEmpty || pageIndex <= 1) {
+			page.setHasPrevious(Boolean.FALSE);
+		} else {
+			page.setHasPrevious(Boolean.TRUE);
+		}
+
+		if (isEmpty || customerList.size() <= pageSize) {
+			page.setHasNext(Boolean.FALSE);
+		} else {
+			page.setHasNext(Boolean.TRUE);
+			customerList.remove(customerList.size() - 1);
+		}
+
 		return customerList;
 	}
 

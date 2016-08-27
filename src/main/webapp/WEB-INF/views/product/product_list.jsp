@@ -25,6 +25,57 @@
 				<%@ include file="../layout/sidebar.jsp"%>
 			</div>
 			<div class="col-md-9">
+				<form action="" class="form-horizontal" role="form">
+					<table class="table">
+						<tbody>
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="nameId" class="col-sm-2 control-label">产品</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="nameId"
+												name="name" placeholder="请输入产品名" value="${param.name }">
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="form-group">
+										<label for="manifacturerId" class="col-sm-2 control-label">供应商</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="manufacturerId"
+												name="manufacturer" placeholder="请输入供应商" value="${param.manufacturer}" >
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="form-group">
+										<label for="priceMinId" class="col-sm-2 control-label">单价</label>
+										<div class="col-sm-10">
+											<input type="number" class="form-control" id="priceMinId" 
+												name="priceMin" placeholder="请输入单价" value="${param.priceMin}" />
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="form-group">
+										<label for="priceMaxId" class="col-sm-2 control-label">至</label>
+										<div class="col-sm-10">
+											<input type="number" class="form-control" id="priceMaxId" 
+												name="priceMax" placeholder="请输入单价" value="${param.priceMax}" />
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4">
+									<div class="form-group">
+										<input class="btn btn-default" type="submit" value="查询" />
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 				<div class="container-fluid">
 					<table class="table table-bordered">
 						<thead>
@@ -62,6 +113,8 @@
 						</tbody>
 					</table>
 				</div>
+				<c:set var="searchParams" value="name=${param.name}&manufacturer=${param.manufacturer}&priceMin=${param.priceMin}&priceMax=${param.priceMax}" />
+				<%@ include file="../layout/pager.jsp" %>
 				<div class="section">
 					<a class="btn btn-default btn-lg" href="/product/add">添加产品</a>
 				</div>

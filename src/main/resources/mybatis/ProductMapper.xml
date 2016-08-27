@@ -154,4 +154,33 @@
   	and 
   		enable = 1
   </select>
+  
+  <sql id="where_condition">
+  	<if test="param != null">
+  		<where>
+  			<if test="param.name != null">
+  				name like '%${param.name}%'
+  			</if>
+  			<if test="param.manufacturer != null">
+  				and manufacturer like '%${param.manufacturer}%'
+  			</if>
+  			<if test="param.priceMin != null">
+  				and price >= #{param.priceMin}
+  			</if>
+  			<if test="param.priceMax != null">
+  				and price &lt;= #{param.priceMax}
+  			</if>
+  		</where>
+  	</if>
+  </sql>
+  
+  <select id="selectProductListByParamWithLimit" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from product 
+  	<include refid="where_condition" />
+  	order by create_time desc
+  	limit #{begin},#{limit}
+  </select>
+  
 </mapper>

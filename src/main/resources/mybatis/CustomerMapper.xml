@@ -207,4 +207,30 @@
   	and 
   		enable = 1
   </select>
+  
+  <sql id="where_condition">
+  	<if test="param != null">
+  		<where>
+  			<if test="param.name != null">
+  				name like '%${param.name}%'
+  			</if>
+  			<if test="param.mobile != null">
+  				and mobile like '%${param.mobile}%'
+  			</if>
+  			<if test="param.village != null">
+  				and village like '%${param.village}%'
+  			</if>
+  		</where>
+  	</if>
+  </sql>
+  
+  <select id="selectCustomerListByParamWithLimit" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from customer
+  	<include refid="where_condition" />
+  	order by create_time desc
+  	limit #{begin},#{limit}
+  </select>
+  
 </mapper>

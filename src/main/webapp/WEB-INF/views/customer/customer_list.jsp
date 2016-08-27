@@ -26,6 +26,48 @@
 				<%@ include file="../layout/sidebar.jsp"%>
 			</div>
 			<div class="col-md-9">
+				<form action="" class="form-horizontal" role="form">
+					<table class="table">
+						<tbody>
+							<tr>
+								<td>
+									<div class="form-group">
+										<label for="nameId" class="col-sm-2 control-label">姓名</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="nameId"
+												name="name" placeholder="请输入姓名" value="${param.name }">
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="form-group">
+										<label for="mobileId" class="col-sm-2 control-label">手机</label>
+										<div class="col-sm-10">
+											<input type="number" class="form-control" id="mobileId"
+												name="mobile" placeholder="请输入手机" value="${param.mobile}" >
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="form-group">
+										<label for="villageId" class="col-sm-2 control-label">村</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="villageId" 
+												name="village" placeholder="请输入村" value="${param.village}" />
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4">
+									<div class="form-group">
+										<input class="btn btn-default" type="submit" value="查询" />
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 				<div class="container-fluid">
 					<table class="table table-bordered">
 						<thead>
@@ -72,6 +114,8 @@
 						</tbody>
 					</table>
 				</div>
+				<c:set var="searchParams" value="name=${param.name}&mobile=${param.mobile}&village=${param.village}" />
+				<%@ include file="../layout/pager.jsp" %>
 				<div class="section">
 					<a class="btn btn-default btn-lg" href="/customer/add">添加客户</a>
 				</div>

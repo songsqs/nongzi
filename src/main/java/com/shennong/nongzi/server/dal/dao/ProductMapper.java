@@ -1,6 +1,7 @@
 package com.shennong.nongzi.server.dal.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +28,7 @@ public interface ProductMapper {
 	int deleteProductByProductId(@Param("productId") Integer productId);
 
 	List<Product> selectProductListByName(@Param("name") String name);
+
+	List<Product> selectProductListByParamWithLimit(@Param("param") Map<String, Object> param,
+			@Param("begin") Integer begin, @Param("limit") Integer limit);
 }

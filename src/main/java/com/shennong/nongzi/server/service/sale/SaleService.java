@@ -3,6 +3,7 @@ package com.shennong.nongzi.server.service.sale;
 import java.util.List;
 import java.util.Map;
 
+import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Sale;
 
 /**
@@ -17,9 +18,10 @@ public interface SaleService {
 	 * 通过参数集合获取销售列表
 	 * 
 	 * @param param
+	 * @param page
 	 * @return
 	 */
-	public List<Sale> getSaleListByParam(Map<String, Object> param);
+	public List<Sale> getSaleListByParam(Map<String, Object> param, Page page);
 
 	/**
 	 * 添加销售记录
