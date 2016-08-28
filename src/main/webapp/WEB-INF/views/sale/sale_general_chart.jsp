@@ -44,7 +44,7 @@
 										<label for="customerName" class="col-sm-2 control-label">姓名</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="customerNameId"
-												name="customerName" placeholder="请输入姓名">
+												name="customerName" placeholder="请输入姓名" value="${param.customerName}">
 										</div>
 									</div>
 								</td>
@@ -53,7 +53,7 @@
 										<label for="productName" class="col-sm-2 control-label">产品</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="productNameId"
-												name="productName" placeholder="请输入产品名">
+												name="productName" placeholder="请输入产品名" value="${param.productName}">
 										</div>
 									</div>
 								</td>
@@ -62,7 +62,7 @@
 										<label for="timeBeginId" class="col-sm-2 control-label">时间</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="timeBeginId"
-												name="timeBegin" placeholder="请选择时间" readonly>
+												name="timeBegin" placeholder="请选择时间" onfocus=this.blur() value="${param.timeBegin}">
 										</div>
 									</div>
 								</td>
@@ -71,7 +71,7 @@
 										<label for="timeEndId" class="col-sm-2 control-label">至</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="timeEndId"
-												name="timeEnd" placeholder="请选择时间" readonly>
+												name="timeEnd" placeholder="请选择时间" onfocus=this.blur() value="${param.timeEnd}">
 										</div>
 									</div>
 								</td>
