@@ -398,4 +398,10 @@ public class SaleServiceImpl implements SaleService {
 		return result;
 	}
 
+	@Override
+	public int deleteSaleBySaleId(Integer saleId) {
+		int result = saleManager.deleteSaleBySaleId(saleId);
+		return result;
+	}
+
 }

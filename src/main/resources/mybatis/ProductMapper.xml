@@ -1,186 +1,195 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.shennong.nongzi.server.dal.dao.ProductMapper" >
-  <resultMap id="BaseResultMap" type="com.shennong.nongzi.server.bean.entity.Product" >
-    <id column="product_id" property="productId" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="manufacturer" property="manufacturer" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="DECIMAL" />
-    <result column="price_lower" property="priceLower" jdbcType="DECIMAL" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="enable" property="enable" jdbcType="TINYINT" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    product_id, name, manufacturer, price, price_lower, create_time, update_time, enable
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from product
-    where product_id = #{productId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from product
-    where product_id = #{productId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.shennong.nongzi.server.bean.entity.Product" useGeneratedKeys="true" keyProperty="productId" >
-    insert into product (name, manufacturer, price, 
-      price_lower, create_time, update_time, 
-      enable)
-    values (#{name,jdbcType=VARCHAR}, #{manufacturer,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{priceLower,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{enable,jdbcType=TINYINT})
-  </insert>
-  <insert id="insertSelective" parameterType="com.shennong.nongzi.server.bean.entity.Product" useGeneratedKeys="true" keyProperty="productId" >
-    insert into product
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="manufacturer != null" >
-        manufacturer,
-      </if>
-      <if test="price != null" >
-        price,
-      </if>
-      <if test="priceLower != null" >
-        price_lower,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-      <if test="enable != null" >
-        enable,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="manufacturer != null" >
-        #{manufacturer,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null" >
-        #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="priceLower != null" >
-        #{priceLower,jdbcType=DECIMAL},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="enable != null" >
-        #{enable,jdbcType=TINYINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.shennong.nongzi.server.bean.entity.Product" >
-    update product
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="manufacturer != null" >
-        manufacturer = #{manufacturer,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="priceLower != null" >
-        price_lower = #{priceLower,jdbcType=DECIMAL},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="enable != null" >
-        enable = #{enable,jdbcType=TINYINT},
-      </if>
-    </set>
-    where product_id = #{productId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.shennong.nongzi.server.bean.entity.Product" >
-    update product
-    set name = #{name,jdbcType=VARCHAR},
-      manufacturer = #{manufacturer,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
-      price_lower = #{priceLower,jdbcType=DECIMAL},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      enable = #{enable,jdbcType=TINYINT}
-    where product_id = #{productId,jdbcType=INTEGER}
-  </update>
-  
-  <select id="selectAllProductList" resultMap="BaseResultMap" >
-    select 
-    <include refid="Base_Column_List" />
-    from product
-    where
-    	enable = 1
-  </select>
-  
-  <select id="selectProductByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-  	select
-  		<include refid="Base_Column_List" />
-  	from product
-  	where 
-  		product_id = #{productId}
-  	and 
-  		enable = 1
-  </select>
-  <update id="deleteProductByProductId" parameterType="java.lang.Integer" >
-  	update 
-  		product
-  	set 
-  		enable = 0 
-  	where
-  		product_id =#{productId}
-  </update>
-  <select id="selectProductListByName" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select 
-  	<include refid="Base_Column_List" />
-  	from product
-  	where 
-  		name like '${name}%'
-  	and 
-  		enable = 1
-  </select>
-  
-  <sql id="where_condition">
-  	<if test="param != null">
-  		<where>
-  			<if test="param.name != null">
-  				name like '%${param.name}%'
-  			</if>
-  			<if test="param.manufacturer != null">
-  				and manufacturer like '%${param.manufacturer}%'
-  			</if>
-  			<if test="param.priceMin != null">
-  				and price >= #{param.priceMin}
-  			</if>
-  			<if test="param.priceMax != null">
-  				and price &lt;= #{param.priceMax}
-  			</if>
-  		</where>
-  	</if>
-  </sql>
-  
-  <select id="selectProductListByParamWithLimit" resultMap="BaseResultMap">
-  	select
-  	<include refid="Base_Column_List" />
-  	from product 
-  	<include refid="where_condition" />
-  	order by create_time desc
-  	limit #{begin},#{limit}
-  </select>
-  
+<mapper namespace="com.shennong.nongzi.server.dal.dao.ProductMapper">
+	<resultMap id="BaseResultMap"
+		type="com.shennong.nongzi.server.bean.entity.Product">
+		<id column="product_id" property="productId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="manufacturer" property="manufacturer" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="price_lower" property="priceLower" jdbcType="DECIMAL" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="enable" property="enable" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		product_id, name, manufacturer, price, price_lower, create_time, update_time,
+		enable
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from product
+		where product_id = #{productId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from product
+		where product_id = #{productId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.shennong.nongzi.server.bean.entity.Product"
+		useGeneratedKeys="true" keyProperty="productId">
+		insert into product (name, manufacturer, price,
+		price_lower, create_time, update_time,
+		enable)
+		values (#{name,jdbcType=VARCHAR}, #{manufacturer,jdbcType=VARCHAR},
+		#{price,jdbcType=DECIMAL},
+		#{priceLower,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+		#{enable,jdbcType=TINYINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.shennong.nongzi.server.bean.entity.Product"
+		useGeneratedKeys="true" keyProperty="productId">
+		insert into product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				name,
+			</if>
+			<if test="manufacturer != null">
+				manufacturer,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="priceLower != null">
+				price_lower,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="enable != null">
+				enable,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="manufacturer != null">
+				#{manufacturer,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DECIMAL},
+			</if>
+			<if test="priceLower != null">
+				#{priceLower,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="enable != null">
+				#{enable,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.shennong.nongzi.server.bean.entity.Product">
+		update product
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="manufacturer != null">
+				manufacturer = #{manufacturer,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=DECIMAL},
+			</if>
+			<if test="priceLower != null">
+				price_lower = #{priceLower,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="enable != null">
+				enable = #{enable,jdbcType=TINYINT},
+			</if>
+		</set>
+		where product_id = #{productId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.shennong.nongzi.server.bean.entity.Product">
+		update product
+		set name = #{name,jdbcType=VARCHAR},
+		manufacturer = #{manufacturer,jdbcType=VARCHAR},
+		price = #{price,jdbcType=DECIMAL},
+		price_lower = #{priceLower,jdbcType=DECIMAL},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		enable = #{enable,jdbcType=TINYINT}
+		where product_id = #{productId,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectAllProductList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from product
+		where
+		enable = 1
+	</select>
+
+	<select id="selectProductByProductId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from product
+		where
+		product_id = #{productId}
+		and
+		enable = 1
+	</select>
+	<update id="deleteProductByProductId" parameterType="java.lang.Integer">
+		update
+		product
+		set
+		enable = 0
+		where
+		product_id =#{productId}
+	</update>
+	<select id="selectProductListByName" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from product
+		where
+		name like '${name}%'
+		and
+		enable = 1
+	</select>
+
+	<sql id="where_condition">
+		<where>
+			enable = 1
+			<if test="param != null">
+				<if test="param.name != null">
+					and name like '%${param.name}%'
+				</if>
+				<if test="param.manufacturer != null">
+					and manufacturer like '%${param.manufacturer}%'
+				</if>
+				<if test="param.priceMin != null">
+					and price >= #{param.priceMin}
+				</if>
+				<if test="param.priceMax != null">
+					and price &lt;= #{param.priceMax}
+				</if>
+			</if>
+		</where>
+	</sql>
+
+	<select id="selectProductListByParamWithLimit" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from product
+		<include refid="where_condition" />
+		order by create_time desc
+		limit #{begin},#{limit}
+	</select>
+
 </mapper>

@@ -54,4 +54,15 @@ public class SaleManager {
 		}
 	}
 
+	public int deleteSaleBySaleId(Integer saleId) {
+		try {
+			int result = saleMapper.deleteSaleBySaleId(saleId);
+			logger.info("deleteSaleBySaleId saleId:" + saleId + ",result:" + result);
+			return result;
+		} catch (Exception e) {
+			logger.error("error when deleteSaleBySaleId", e);
+			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
+		}
+	}
+
 }

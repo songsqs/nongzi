@@ -3,3 +3,4 @@
 target/
 .settings/
 /bin
+catalina.base_IS_UNDEFINED

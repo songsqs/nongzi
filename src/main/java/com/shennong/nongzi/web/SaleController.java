@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shennong.nongzi.common.utils.StringUtil;
 import com.shennong.nongzi.common.utils.web.Page;
@@ -41,7 +42,7 @@ public class SaleController {
 
 		Page page = new Page(pageIndex, pageSize);
 
-		// 采用传递对象的方法操作page对象
+		// 閲囩敤浼犻�掑璞＄殑鏂规硶鎿嶄綔page瀵硅薄
 		List<Sale> saleList = saleService.getSaleListByParam(param, page);
 
 		model.addAttribute("saleList", saleList);
@@ -59,6 +60,14 @@ public class SaleController {
 	public String addSaleDo(HttpServletRequest request, Sale sale) {
 		saleService.addSale(sale);
 		return "sale/sale_add";
+	}
+
+	@RequestMapping(value = "delete.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String deleteSaleDo(HttpServletRequest request,
+			@RequestParam(value = "saleId", required = true) Integer saleId) {
+		int result = saleService.deleteSaleBySaleId(saleId);
+		return String.valueOf(result);
 	}
 
 	@RequestMapping("/chart/general")
@@ -110,9 +119,9 @@ public class SaleController {
 
 		Map<String, Object> param = new HashMap<>();
 		param.put("customerId", customerId);
-		param.put("customerName", customerName);
-		param.put("timeBegin", timeBegin);
-		param.put("timeEnd", timeEnd);
+		param.put("customerName", StringUtil.realString(customerName));
+		param.put("timeBegin", StringUtil.realString(timeBegin));
+		param.put("timeEnd", StringUtil.realString(timeEnd));
 
 		Map<String, String> optionMap = saleService.getSaleCustomerOptionByParam(param);
 
