@@ -8,7 +8,7 @@
 <!-- http://www.qos.ch/shop/products/professionalSupport -->
 <!-- -->
 <configuration>
-    <property name="app.logs.path" value="D:/apache-tomcat-8.0.36/logs" />
+    <property name="app.logs.path" value="${catalina.base}/logs" />
     <property name="app.name" value="nongzi" />
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
