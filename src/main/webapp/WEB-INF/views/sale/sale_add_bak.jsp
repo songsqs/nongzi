@@ -35,30 +35,6 @@
 				<%@ include file="../layout/sidebar.jsp"%>
 			</div>
 			<div class="col-md-9">
-				<table class="table">
-					<tbody>
-						<tr>
-							<td>
-								<div class="form-group form-horizontal">
-									<label for="customerNameId" class="col-sm-2 control-label">姓名</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control" id="customerNameId"
-											name="customerName" placeholder="请输入姓名以搜索" >
-										</div>
-								</div>
-							</td>
-							<td>
-								<div class="form-group form-horizontal">
-									<label for="productNameId" class="col-sm-2 control-label">产品名</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control" id="productNameId" 
-											name="productName" placeholder="请输入产品名以搜索" />
-									</div>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
 				<form class="form-horizontal" role="form" action="add.do"
 					method="post">
 					<div class="form-group">
@@ -66,13 +42,9 @@
 							<label for="productNameId" class="control-label">产品名称:</label>
 						</div>
 						<div class="col-sm-10">
-							<input type="hidden" id="productIdId" name="productId"> 
-							<input type="hidden" class="form-control" id="productNameId"
-								name="productName">
-							<select id="productSelect" class="form-control">
-								<option value="1">1</option>
-								<option value="2">2</option>
-							</select>
+							<input type="hidden" id="productIdId" name="productId"> <input
+								type="text" class="form-control" id="productNameId"
+								placeholder=产品名称 name="productName">
 						</div>
 					</div>
 					<div class="form-group">
@@ -81,12 +53,8 @@
 						</div>
 						<div class="col-sm-10">
 							<input type="hidden" id="customerIdId" name="customerId">
-							<input type="hidden" class="form-control" id="customerNameId"
+							<input type="text" class="form-control" id="customerNameId"
 								placeholder="姓名" name="customerName">
-							<select id="customerSelect" class="form-control">
-								<option value="1">11</option>
-								<option value="2">22</option>
-							</select>
 						</div>
 					</div>
 					<div class="form-group">
@@ -94,7 +62,7 @@
 							<label for="price" class="control-label">单价(元):</label>
 						</div>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="priceId"
+							<input type="text" class="form-control" id="priceId"
 								placeholder="单价" name="price">
 						</div>
 					</div>
@@ -103,7 +71,7 @@
 							<label for="numId" class="control-label">数量:</label>
 						</div>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="numId"
+							<input type="text" class="form-control" id="numId"
 								placeholder="数量" name="num">
 						</div>
 					</div>
@@ -112,7 +80,7 @@
 							<label for="totalPriceId" class="control-label">总价(元):</label>
 						</div>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="totalPriceId"
+							<input type="text" class="form-control" id="totalPriceId"
 								placeholder="总价" name="totalPrice">
 						</div>
 					</div>
@@ -121,7 +89,7 @@
 							<label for="profitId" class="control-label">利润(元):</label>
 						</div>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="profitId"
+							<input type="text" class="form-control" id="profitId"
 								placeholder="利润" name="profit">
 						</div>
 					</div>
@@ -130,8 +98,8 @@
 							<label for="createTimeId" class="control-label">时间:</label>
 						</div>
 						<div class="col-sm-10">
-							<input type="datetime" class="form-control" id="createTimeId"
-								placeholder="销售时间" name="createTime" onfocus=this.blur()>
+							<input type="text" class="form-control" id="createTimeId"
+								placeholder="销售时间" name="createTime" readonly>
 						</div>
 					</div>
 					<div class="form-group">
