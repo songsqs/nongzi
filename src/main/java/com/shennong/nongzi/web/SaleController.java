@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shennong.nongzi.common.utils.StringUtil;
 import com.shennong.nongzi.common.utils.web.Page;
+import com.shennong.nongzi.server.bean.entity.Customer;
+import com.shennong.nongzi.server.bean.entity.Product;
 import com.shennong.nongzi.server.bean.entity.Sale;
+import com.shennong.nongzi.server.service.customer.CustomerService;
+import com.shennong.nongzi.server.service.product.ProductService;
 import com.shennong.nongzi.server.service.sale.SaleService;
 
 @Controller
@@ -25,6 +29,12 @@ public class SaleController {
 
 	@Autowired
 	private SaleService saleService;
+
+	@Autowired
+	private CustomerService customerService;
+
+	@Autowired
+	private ProductService productService;
 
 	@RequestMapping("list")
 	public String getSale(HttpServletRequest request, Model model,
@@ -52,7 +62,14 @@ public class SaleController {
 	}
 
 	@RequestMapping("add")
-	public String addSale() {
+	public String addSale(HttpServletRequest request, Model model) {
+
+		List<Customer> customerList = customerService.getAllCustomerList();
+		List<Product> productList = productService.getAllProductList();
+
+		model.addAttribute("customerList", customerList);
+		model.addAttribute("productList", productList);
+
 		return "sale/sale_add";
 	}
 

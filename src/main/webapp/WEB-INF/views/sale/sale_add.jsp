@@ -42,8 +42,7 @@
 								<div class="form-group form-horizontal">
 									<label for="customerNameId" class="col-sm-2 control-label">姓名</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" id="customerNameId"
-											name="customerName" placeholder="请输入姓名以搜索" >
+										<input type="text" class="form-control"  placeholder="请输入姓名以搜索" onInput="onCustomerInput(this.value)" />
 										</div>
 								</div>
 							</td>
@@ -51,8 +50,7 @@
 								<div class="form-group form-horizontal">
 									<label for="productNameId" class="col-sm-2 control-label">产品名</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" id="productNameId" 
-											name="productName" placeholder="请输入产品名以搜索" />
+										<input type="text" class="form-control" placeholder="请输入产品名以搜索" onInput="onProductInput(this.value)"/>
 									</div>
 								</div>
 							</td>
@@ -69,9 +67,11 @@
 							<input type="hidden" id="productIdId" name="productId"> 
 							<input type="hidden" class="form-control" id="productNameId"
 								name="productName">
-							<select id="productSelect" class="form-control">
-								<option value="1">1</option>
-								<option value="2">2</option>
+							<select id="productSelect" class="form-control" onChange="onProductChange(this)">
+								<option disabled selected>请选择产品</option>
+								<c:forEach items="${productList}" var="product">
+									<option value="${product.price }" id="${product.productId}" >${product.name}</option>
+								</c:forEach>
 							</select>
 						</div>
 					</div>
@@ -81,11 +81,12 @@
 						</div>
 						<div class="col-sm-10">
 							<input type="hidden" id="customerIdId" name="customerId">
-							<input type="hidden" class="form-control" id="customerNameId"
-								placeholder="姓名" name="customerName">
-							<select id="customerSelect" class="form-control">
-								<option value="1">11</option>
-								<option value="2">22</option>
+							<input type="hidden" class="form-control" id="customerNameId"  name="customerName">
+							<select id="customerSelect" class="form-control" onChange="onCustomerChange(this)" >
+								<option disabled selected>请选择客户</option>
+								<c:forEach items="${customerList}" var="customer">
+									<option value="${customer.name}" id="${customer.customerId}" >${customer.name}-${customer.mobile}</option>
+								</c:forEach>
 							</select>
 						</div>
 					</div>
@@ -136,7 +137,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-default"
+							<button type="button" class="btn btn-default"
 								onclick="return onSubmit();">确定</button>
 							<a href="/product/list">
 								<button type="button" class="btn btn-default">取消</button>
@@ -149,93 +150,78 @@
 	</div>
 
 	<script type="text/javascript">
-		$(function() {
-			//产品名
-			$('#productNameId').autocomplete({
-				source : function(request, reponse) {
-					$.ajax({
-						url : "/product/getProduct.do",
-						type : "post",
-						data : {
-							"name" : $("#productNameId").val()
-						},
-						cache : "false",
-						success : function(data) {
-							console.log(data);
-							var jsonData = jQuery.parseJSON(data);
-							console.log(jsonData);
-							reponse($.map(jsonData, function(item) {
-								return {
-									label : item.name,
-									value : item.name,
-									id : item.productId,
-									price : item.price
-								}
-							}));
-						},
-						error : function(suggestionRequest, textStatus, error) {
-							alert(error);
-						}
-					})
-				},
-				minChars : 0,
-				max : 10,
-				autoFill : false,
-				scollHeight : 200,
-				select : function(event, ui) {
-					$("#productIdId").val(ui.item.id);
-					$("#productNameId").val(ui.item.value);
-					$("#priceId").val(ui.item.price);
-					return false;
-				}
-			});
-		});
-
-		$(function() {
-			//客户姓名
-			$('#customerNameId').autocomplete({
-				source : function(request, reponse) {
-					$.ajax({
-						url : "/customer/getCustomer.do",
-						type : "post",
-						data : {
-							"name" : $("#customerNameId").val()
-						},
-						cache : "false",
-						success : function(data) {
-							console.log(data);
-							var jsonData = jQuery.parseJSON(data);
-							console.log(jsonData);
-							reponse($.map(jsonData, function(item) {
-								return {
-									label : item.name,
-									value : item.name,
-									id : item.customerId
-								}
-							}));
-						},
-						error : function(suggestionRequest, textStatus, error) {
-							alert(error);
-						}
-					})
-				},
-				minChars : 0,
-				max : 10,
-				autoFill : false,
-				scollHeight : 200,
-				select : function(event, ui) {
-					$("#customerIdId").val(ui.item.id);
-					$("#customerNameId").val(ui.item.value);
-					return false;
-				}
-			});
-		});
-
+	
 		$('#createTimeId').datetimepicker({
 			language : 'zh-CN',
 			format : 'yyyy-mm-dd',
 			minView : 2,
 		});
+	
+		function onProductInput(productName){
+			$.ajax({
+				url:"/product/getProduct.do",
+				type:"post",
+				data:{
+					"name":productName
+				},
+				cache:"false",
+				success:function(data){
+					var jsonArray = jQuery.parseJSON(data);
+					//操作产品下拉框
+					var obj=$('#productSelect');
+					obj.empty();
+					
+					$("<option></option>").attr('disabled','disabled').attr('selected','selected').text("请选择产品").appendTo(obj);
+					
+					$.each(jsonArray,function(index,json){
+						console.log("#"+index+",json:"+json.name);
+						$('<option></option>').attr('id',json.productId).val(json.price).text(json.name).appendTo(obj);
+					});
+				},
+				error:function(suggestionRequest, textStatus, error) {
+					alert(error);
+				}
+			});
+		}
+		
+		function onCustomerInput(customerName){
+			$.ajax({
+				url:"/customer/getCustomer.do",
+				type:"post",
+				data:{
+					"name":customerName
+				},
+				cache:"false",
+				success:function(data){
+					var jsonArray = jQuery.parseJSON(data);
+					//操作客户下拉框
+					var obj=$('#customerSelect');
+					obj.empty();
+					
+					$("<option></option>").attr('disabled','disabled').attr('selected','selected').text("请选择客户").appendTo(obj);
+					
+					$.each(jsonArray,function(index,json){
+						console.log("#"+index+",json:"+json.name);
+						$('<option></option>').attr('id',json.customerId).val(json.name).text(json.name+'-'+json.mobile).appendTo(obj);
+					});
+				},
+				error:function(suggestionRequest, textStatus, error) {
+					alert(error);
+				}
+			});
+		}
+	
+		function onProductChange(selectedItem){
+			productIdId.value=selectedItem.options[selectedItem.options.selectedIndex].id;
+			productNameId.vaule=selectedItem.options[selectedItem.options.selectedIndex].text;
+			priceId.value=selectedItem.options[selectedItem.options.selectedIndex].value;
+		}
+		
+		function onCustomerChange(selectedItem){
+			customerIdId.value=selectedItem.options[selectedItem.options.selectedIndex].id;
+			customerNameId.value=selectedItem.options[selectedItem.options.selectedIndex].value;
+		}
+		
 
 		function onSubmit() {
 			if (!checkAndGetSelectValue("productNameId", "产品名称不能为空", "0")) {
@@ -266,6 +252,7 @@
 
 			return true;
 		}
+		
 	</script>
 </body>
 </html>
