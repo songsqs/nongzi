@@ -74,9 +74,10 @@ public class SaleController {
 	}
 
 	@RequestMapping(value = "add.do", method = RequestMethod.POST)
+	@ResponseBody
 	public String addSaleDo(HttpServletRequest request, Sale sale) {
 		saleService.addSale(sale);
-		return "sale/sale_add";
+		return "success";
 	}
 
 	@RequestMapping(value = "delete.do", method = RequestMethod.POST)

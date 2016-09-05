@@ -126,7 +126,7 @@ public class SaleServiceImpl implements SaleService {
 				new Data().type(MarkType.min).name("最小值")));
 		profitLine.markLine(new MarkLine().data(new Data().type(MarkType.average).name("平均值")));
 		for (String dayTimeT : dayTimeList) {
-			profitLine.data(profitMap.get(dayTimeT));
+			profitLine.data(String.format("%.2f", profitMap.get(dayTimeT)));
 		}
 		option.series(profitLine);
 
@@ -138,7 +138,7 @@ public class SaleServiceImpl implements SaleService {
 				new Data().type(MarkType.min).name("最小值")));
 		totalPriceLine.markLine(new MarkLine().data(new Data().type(MarkType.average).name("平均值")));
 		for (String dayTimeT : dayTimeList) {
-			totalPriceLine.data(totalPriceMap.get(dayTimeT));
+			totalPriceLine.data(String.format("%.2f", totalPriceMap.get(dayTimeT)));
 		}
 		option.series(totalPriceLine);
 

@@ -40,7 +40,7 @@
 						<tr>
 							<td>
 								<div class="form-group form-horizontal">
-									<label for="customerNameId" class="col-sm-2 control-label">姓名</label>
+									<label class="col-sm-2 control-label">姓名</label>
 									<div class="col-sm-10">
 										<input type="text" class="form-control"  placeholder="请输入姓名以搜索" onInput="onCustomerInput(this.value)" />
 										</div>
@@ -48,7 +48,7 @@
 							</td>
 							<td>
 								<div class="form-group form-horizontal">
-									<label for="productNameId" class="col-sm-2 control-label">产品名</label>
+									<label class="col-sm-2 control-label">产品名</label>
 									<div class="col-sm-10">
 										<input type="text" class="form-control" placeholder="请输入产品名以搜索" onInput="onProductInput(this.value)"/>
 									</div>
@@ -57,16 +57,15 @@
 						</tr>
 					</tbody>
 				</table>
-				<form class="form-horizontal" role="form" action="add.do"
+				<form class="form-horizontal" role="form" action="add.do" id="saleAddForm"
 					method="post">
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="productNameId" class="control-label">产品名称:</label>
+							<label  class="control-label">产品名称:</label>
 						</div>
 						<div class="col-sm-10">
-							<input type="hidden" id="productIdId" name="productId"> 
-							<input type="hidden" class="form-control" id="productNameId"
-								name="productName">
+							<input type="hidden" id="productIdId" name="productId" /> 
+							<input type="hidden" id="productNameId" name="productName" />
 							<select id="productSelect" class="form-control" onChange="onProductChange(this)">
 								<option disabled selected>请选择产品</option>
 								<c:forEach items="${productList}" var="product">
@@ -105,7 +104,7 @@
 						</div>
 						<div class="col-sm-10">
 							<input type="number" class="form-control" id="numId"
-								placeholder="数量" name="num">
+								placeholder="数量" name="num" onInput="onNumInput()">
 						</div>
 					</div>
 					<div class="form-group">
@@ -213,7 +212,8 @@
 	
 		function onProductChange(selectedItem){
 			productIdId.value=selectedItem.options[selectedItem.options.selectedIndex].id;
-			productNameId.vaule=selectedItem.options[selectedItem.options.selectedIndex].text;
+			//productNameId.vaule=selectedItem.options[selectedItem.options.selectedIndex].text;
+			$('#productNameId').val(selectedItem.options[selectedItem.options.selectedIndex].text);
 			priceId.value=selectedItem.options[selectedItem.options.selectedIndex].value;
 		}
 		
@@ -222,6 +222,20 @@
 			customerNameId.value=selectedItem.options[selectedItem.options.selectedIndex].value;
 		}
 		
+		function onNumInput(){
+			var price=$('#priceId').val();
+			if(isNaN(price)){
+				return false;
+			}
+			
+			var num=$('#numId').val();
+			if(isNaN(num)){
+				return false;
+			}
+			
+			var totalPrice=price * num;
+			$('#totalPriceId').val(totalPrice);			
+		}
 
 		function onSubmit() {
 			if (!checkAndGetSelectValue("productNameId", "产品名称不能为空", "0")) {
@@ -249,7 +263,21 @@
 			if(!checkAndGetSelectValue("createTimeId","时间不能为空","0")){
 				return false;
 			}
-
+			
+			
+			$.ajax({
+				cache:false,
+				type:"POST",
+				url:"/sale/add.do",
+				data:$('#saleAddForm').serialize(),
+				success:function(data){
+					alert("添加成功,可以继续添加");
+				},
+				error:function(request){
+					alert("添加失败,如果多次失败请联系管理员");
+				}
+			});
+			
 			return true;
 		}
 		
