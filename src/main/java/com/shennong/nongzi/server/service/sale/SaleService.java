@@ -3,6 +3,8 @@ package com.shennong.nongzi.server.service.sale;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.activemq.filter.function.makeListFunction;
+
 import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Sale;
 
@@ -54,6 +56,14 @@ public interface SaleService {
 	 * @return
 	 */
 	public Map<String, String> getSaleCustomerOptionByParam(Map<String, Object> param);
+	
+	/**
+	 * 返回客户购买情况的option
+	 * @param param
+	 * @param isAdmin 是否时管理员
+	 * @return
+	 */
+	public Map<String, String> getSaleCustomerOptionByParam(Map<String, Object> param,boolean isAdmin);
 
 	/**
 	 * delete sale by saleId

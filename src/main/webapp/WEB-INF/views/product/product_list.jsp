@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
@@ -83,8 +84,10 @@
 								<th>名称</th>
 								<th>供应商</th>
 								<th>单价(元)</th>
+								<shiro:hasRole name="admin">
 								<th>最低单价(元)</th>
 								<th>操作</th>
+								</shiro:hasRole>
 							</tr>
 						</thead>
 						<tbody>
@@ -98,6 +101,7 @@
 									<td style="font-size: 150%">${product.name }</td>
 									<td style="font-size: 150%">${product.manufacturer}</td>
 									<td style="font-size: 150%">${product.price}</td>
+									<shiro:hasRole name="admin">
 									<td style="font-size: 150%">${product.priceLower }</td>
 									<td>
 										<div class="btn-group">
@@ -107,6 +111,7 @@
 												class="btn btn-primary">删除</a>
 										</div>
 									</td>
+									</shiro:hasRole>
 								</tr>
 							</c:forEach>
 
@@ -115,9 +120,11 @@
 				</div>
 				<c:set var="searchParams" value="name=${param.name}&manufacturer=${param.manufacturer}&priceMin=${param.priceMin}&priceMax=${param.priceMax}" />
 				<%@ include file="../layout/pager.jsp" %>
+				<shiro:hasRole name="admin">
 				<div class="section">
 					<a class="btn btn-default btn-lg" href="/product/add">添加产品</a>
 				</div>
+				</shiro:hasRole>
 			</div>
 		</div>
 	</div>

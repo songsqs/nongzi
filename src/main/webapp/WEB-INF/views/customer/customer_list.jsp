@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
@@ -80,7 +81,9 @@
 								<th>市</th>
 								<th>区(乡)</th>
 								<th>村</th>
+								<shiro:hasRole name="admin">
 								<th>操作</th>
+								</shiro:hasRole>
 							</tr>
 						</thead>
 						<tbody>
@@ -100,6 +103,7 @@
 									<td style="font-size: 150%">${customer.city}</td>
 									<td style="font-size: 150%">${customer.district}</td>
 									<td style="font-size: 150%">${customer.village}</td>
+									<shiro:hasRole name="admin">
 									<td>
 										<div class="btn-group">
 											<a href="/customer/edit?customerId=${customer.customerId }"
@@ -108,6 +112,7 @@
 												class="btn btn-primary">删除</a>
 										</div>
 									</td>
+									</shiro:hasRole>
 								</tr>
 							</c:forEach>
 
@@ -116,9 +121,11 @@
 				</div>
 				<c:set var="searchParams" value="name=${param.name}&mobile=${param.mobile}&village=${param.village}" />
 				<%@ include file="../layout/pager.jsp" %>
+				<shiro:hasRole name="admin">
 				<div class="section">
 					<a class="btn btn-default btn-lg" href="/customer/add">添加客户</a>
 				</div>
+				</shiro:hasRole>
 			</div>
 		</div>
 	</div>

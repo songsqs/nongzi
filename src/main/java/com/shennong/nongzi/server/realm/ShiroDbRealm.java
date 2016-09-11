@@ -61,8 +61,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		if (account != null) {
 			// 若用户存在,将此用户存放到认证info中
 			return new SimpleAuthenticationInfo(
-					new ShiroUser(account.getAccountId(), account.getName(), account.getType()), account.getPassword(),
-					ByteSource.Util.bytes(ConstantConfig.SALT), getName());
+					new ShiroUser(account.getAccountId(), account.getName(), account.getCustomerId(),
+							account.getType()),
+					account.getPassword(), ByteSource.Util.bytes(ConstantConfig.SALT), getName());
 		}
 		return null;
 	}

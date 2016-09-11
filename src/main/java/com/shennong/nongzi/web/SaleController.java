@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Customer;
 import com.shennong.nongzi.server.bean.entity.Product;
 import com.shennong.nongzi.server.bean.entity.Sale;
+import com.shennong.nongzi.server.bean.entity.ShiroUser;
 import com.shennong.nongzi.server.service.customer.CustomerService;
 import com.shennong.nongzi.server.service.product.ProductService;
 import com.shennong.nongzi.server.service.sale.SaleService;
@@ -37,6 +40,7 @@ public class SaleController {
 	private ProductService productService;
 
 	@RequestMapping("list")
+	@RequiresRoles("admin")
 	public String getSale(HttpServletRequest request, Model model,
 			@RequestParam(value = "customerName", required = false) String customerName,
 			@RequestParam(value = "productName", required = false) String productName,
@@ -62,6 +66,7 @@ public class SaleController {
 	}
 
 	@RequestMapping("add")
+	@RequiresRoles("admin")
 	public String addSale(HttpServletRequest request, Model model) {
 
 		List<Customer> customerList = customerService.getAllCustomerList();
@@ -75,6 +80,7 @@ public class SaleController {
 
 	@RequestMapping(value = "add.do", method = RequestMethod.POST)
 	@ResponseBody
+	@RequiresRoles("admin")
 	public String addSaleDo(HttpServletRequest request, Sale sale) {
 		saleService.addSale(sale);
 		return "success";
@@ -82,6 +88,7 @@ public class SaleController {
 
 	@RequestMapping(value = "delete.do", method = RequestMethod.POST)
 	@ResponseBody
+	@RequiresRoles("admin")
 	public String deleteSaleDo(HttpServletRequest request,
 			@RequestParam(value = "saleId", required = true) Integer saleId) {
 		int result = saleService.deleteSaleBySaleId(saleId);
@@ -109,6 +116,7 @@ public class SaleController {
 	}
 
 	@RequestMapping("/chart/product")
+	@RequiresRoles("admin")
 	public String getProductChart(HttpServletRequest request, Model model,
 			@RequestParam(value = "productId", required = false) Integer productId,
 			@RequestParam(value = "productName", required = false) String productName,
@@ -140,8 +148,17 @@ public class SaleController {
 		param.put("customerName", StringUtil.realString(customerName));
 		param.put("timeBegin", StringUtil.realString(timeBegin));
 		param.put("timeEnd", StringUtil.realString(timeEnd));
+		
+		//增加客户权限验证
+		boolean isAdmin=false;
+		ShiroUser shiroUser=(ShiroUser) SecurityUtils.getSubject().getPrincipal();
+		if(shiroUser.getType()==0){
+			isAdmin=false;
+			param.clear();
+			param.put("customerId", shiroUser.getUserId());
+		}
 
-		Map<String, String> optionMap = saleService.getSaleCustomerOptionByParam(param);
+		Map<String, String> optionMap = saleService.getSaleCustomerOptionByParam(param,isAdmin);
 
 		model.addAllAttributes(optionMap);
 

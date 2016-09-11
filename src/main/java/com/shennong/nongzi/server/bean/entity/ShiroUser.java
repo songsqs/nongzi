@@ -9,6 +9,8 @@ public class ShiroUser implements Serializable{
 	private Integer id;
 
 	private String username;
+	
+	private Integer userId;
 
 	private Integer type;
 
@@ -16,6 +18,21 @@ public class ShiroUser implements Serializable{
 		this.id = id;
 		this.username = username;
 		this.type = type;
+	}
+	
+	public ShiroUser(Integer id,String userName,Integer userId,Integer type){
+		this.id=id;
+		this.username=userName;
+		this.userId=userId;
+		this.type=type;
+	}
+	
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public Integer getId() {

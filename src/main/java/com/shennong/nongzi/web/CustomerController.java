@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,11 +35,13 @@ public class CustomerController {
 	private static final DateFormat FORMATER = new SimpleDateFormat("yyyy-MM-dd");
 
 	@RequestMapping("add")
+	@RequiresRoles("admin")
 	public String addCustomer() {
 		return "customer/customer_add";
 	}
 
 	@RequestMapping(value = "add.do", method = RequestMethod.POST)
+	@RequiresRoles("admin")
 	public String addCustomerDo(Customer customer) {
 		customerService.addCustomer(customer);
 		return "redirect:/customer/list";
@@ -68,6 +71,7 @@ public class CustomerController {
 	}
 
 	@RequestMapping("edit")
+	@RequiresRoles("admin")
 	public String editProduct(HttpServletRequest request, Model model,
 			@RequestParam(value = "customerId", required = true) Integer customerId) {
 		Customer customer = customerService.getCustomerByCustomerId(customerId);
@@ -85,6 +89,7 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value = "edit.do", method = RequestMethod.POST)
+	@RequiresRoles("admin")
 	public String editCustomerDo(Customer customer) {
 		customerService.updateCustomerByCustomerId(customer);
 		
@@ -93,6 +98,7 @@ public class CustomerController {
 
 	@RequestMapping(value = "delete.do", method = RequestMethod.POST)
 	@ResponseBody
+	@RequiresRoles("admin")
 	public String deleteCustomerDo(HttpServletRequest request,
 			@RequestParam(value = "customerId", required = true) Integer customerId) {
 		int result = customerService.deleteCustomerByCustomerId(customerId);

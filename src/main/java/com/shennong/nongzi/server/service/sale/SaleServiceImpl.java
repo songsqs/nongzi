@@ -90,7 +90,7 @@ public class SaleServiceImpl implements SaleService {
 	public String getSaleGeneralOptionByParam(Map<String, Object> param) {
 		List<Sale> saleList = saleManager.selectSaleListByParam(param);
 
-		return generateSaleGeneralLineOption(saleList);
+		return generateSaleGeneralLineOption(saleList,true);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class SaleServiceImpl implements SaleService {
 	 * @param saleList
 	 * @return
 	 */
-	private String generateSaleGeneralLineOption(List<Sale> saleList) {
+	private String generateSaleGeneralLineOption(List<Sale> saleList,boolean isAdmin) {
 		Map<String, BigDecimal> profitMap = getProfitMapBySaleList(saleList);
 		List<String> dayTimeList = new ArrayList<>(profitMap.keySet());
 		Collections.sort(dayTimeList);
@@ -119,16 +119,20 @@ public class SaleServiceImpl implements SaleService {
 		option.xAxis(new CategoryAxis().boundaryGap(true).data(dayTimeList.toArray()));
 		// y轴
 		option.yAxis(new ValueAxis().axisLabel(new AxisLabel().formatter("{value} 元")));
-
-		Line profitLine = new Line();
-		profitLine.name("利润");
-		profitLine.markPoint(new MarkPoint().data(new Data().type(MarkType.max).name("最大值"),
-				new Data().type(MarkType.min).name("最小值")));
-		profitLine.markLine(new MarkLine().data(new Data().type(MarkType.average).name("平均值")));
-		for (String dayTimeT : dayTimeList) {
-			profitLine.data(String.format("%.2f", profitMap.get(dayTimeT)));
+		
+		//如果是管理员账户，则添加利润信息
+		if(isAdmin==true){
+			Line profitLine = new Line();
+			profitLine.name("利润");
+			profitLine.markPoint(new MarkPoint().data(new Data().type(MarkType.max).name("最大值"),
+					new Data().type(MarkType.min).name("最小值")));
+			profitLine.markLine(new MarkLine().data(new Data().type(MarkType.average).name("平均值")));
+			for (String dayTimeT : dayTimeList) {
+				profitLine.data(String.format("%.2f", profitMap.get(dayTimeT)));
+			}
+			option.series(profitLine);
 		}
-		option.series(profitLine);
+
 
 		Map<String, BigDecimal> totalPriceMap = getTotalPriceMapBySaleList(saleList);
 
@@ -215,7 +219,7 @@ public class SaleServiceImpl implements SaleService {
 
 		Map<String, String> result = new HashMap<>();
 
-		result.put("productLineOption", generateSaleGeneralLineOption(saleList));
+		result.put("productLineOption", generateSaleGeneralLineOption(saleList,true));
 		result.put("productPieOption", generateProductSaleNumGroupByCustomerPieOption(saleList));
 
 		return result;
@@ -291,14 +295,7 @@ public class SaleServiceImpl implements SaleService {
 
 	@Override
 	public Map<String, String> getSaleCustomerOptionByParam(Map<String, Object> param) {
-		Map<String, String> result = new HashMap<>();
-
-		List<Sale> saleList = saleManager.selectSaleListByParam(param);
-
-		result.put("customerLineOption", generateSaleGeneralLineOption(saleList));
-		result.put("customerPieOption", generateCustomerSaleNumGroupByProductPieOption(saleList));
-
-		return result;
+		return getSaleCustomerOptionByParam(param,true);
 	}
 
 	/**
@@ -401,6 +398,18 @@ public class SaleServiceImpl implements SaleService {
 	@Override
 	public int deleteSaleBySaleId(Integer saleId) {
 		int result = saleManager.deleteSaleBySaleId(saleId);
+		return result;
+	}
+
+	@Override
+	public Map<String, String> getSaleCustomerOptionByParam(Map<String, Object> param, boolean isAdmin) {
+		Map<String, String> result = new HashMap<>();
+
+		List<Sale> saleList = saleManager.selectSaleListByParam(param);
+
+		result.put("customerLineOption", generateSaleGeneralLineOption(saleList,isAdmin));
+		result.put("customerPieOption", generateCustomerSaleNumGroupByProductPieOption(saleList));
+
 		return result;
 	}
 

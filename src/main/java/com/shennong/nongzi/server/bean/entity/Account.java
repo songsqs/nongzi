@@ -6,6 +6,8 @@ public class Account {
     private Integer accountId;
 
     private String name;
+    
+    private Integer customerId;
 
     private String password;
 
@@ -33,7 +35,15 @@ public class Account {
         this.name = name;
     }
 
-    public String getPassword() {
+    public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getPassword() {
         return password;
     }
 
