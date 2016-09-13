@@ -29,4 +29,15 @@ public class AccountManager {
 		}
 	}
 
+	public Account insertSelective(Account account) {
+		try {
+			int result = accountMapper.insertSelective(account);
+			logger.info("insertSelective,account:" + account + ",result:" + result);
+			return account;
+		} catch (Exception e) {
+			logger.error("error when insertSelective", e);
+			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
+		}
+	}
+
 }

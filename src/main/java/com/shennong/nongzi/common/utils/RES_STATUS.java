@@ -10,6 +10,7 @@ public enum RES_STATUS {
 	//customer
 	CUSTOMER_ADDED(100011,"已经添加此客户"),
 	CUSTOMER_NOT_EXITED(100012,"此客户不存在"),
+	CUSTOMER_MOBILE_CAN_NOT_BE_NULL(100013,"请填写客户电话"),
 	;
 	public final int code;
 	public final String msg;

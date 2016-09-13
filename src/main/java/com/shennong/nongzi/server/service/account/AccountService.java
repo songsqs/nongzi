@@ -16,5 +16,12 @@ public interface AccountService {
 	 * @return
 	 */
 	public Account getAccountByName(String name);
+	
+	/**
+	 * 为客户创建账户
+	 * @param customerId
+	 * @return
+	 */
+	public Account createCustomerAccount(Integer customerId);
 
 }

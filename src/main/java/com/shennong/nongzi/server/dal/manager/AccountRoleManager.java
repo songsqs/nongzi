@@ -31,4 +31,15 @@ public class AccountRoleManager {
 			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
 		}
 	}
+
+	public AccountRole insertSelective(AccountRole accountRole) {
+		try {
+			int result = accountRoleMapper.insertSelective(accountRole);
+			logger.info("insertSelective,accountRole:" + accountRole + ",result:" + result);
+			return accountRole;
+		} catch (Exception e) {
+			logger.error("error when insertSelective", e);
+			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
+		}
+	}
 }
