@@ -29,6 +29,11 @@
 					</button>
 					<ul class="dropdown-menu" role="menu"
 						aria-labelledby="dropdownmenu">
+						<shiro:hasRole name="normal">
+							<li role="presentation">
+								<a role="menuitem" tabindex="1" href="/customer/edit?customerId=<shiro:principal property="userId"/> ">个人信息管理</a>
+							</li>
+						</shiro:hasRole>
 						<li role="presentation"><a role="menuitem" tabindex="1"
 							href="#">修改密码</a></li>
 						<li role="presentation" class="divider"></li>

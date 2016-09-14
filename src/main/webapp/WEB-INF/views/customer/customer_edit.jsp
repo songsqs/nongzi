@@ -59,7 +59,8 @@
 						</div>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="mobileId"
-								placeholder="手机" name="mobile" value="${customer.mobile }">
+								placeholder="手机" name="mobile" value="${customer.mobile }" 
+								<shiro:hasRole name="normal">readonly</shiro:hasRole> >
 						</div>
 					</div>
 					<div class="form-group">
@@ -68,7 +69,8 @@
 						</div>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="birthdayId"
-								placeholder="生日" name="birthday" readonly value="${birthday }">
+								placeholder="生日" name="birthday" value="${birthday }" 
+								onfocus=this.blur() >
 						</div>
 					</div>
 					<div class="form-group">

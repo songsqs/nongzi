@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,8 @@ import com.shennong.nongzi.common.utils.RES_STATUS;
 import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Customer;
 import com.shennong.nongzi.server.bean.entity.CustomerWithAccount;
+import com.shennong.nongzi.server.bean.entity.ShiroUser;
+import com.shennong.nongzi.server.bean.enums.AccountTypeEnum;
 import com.shennong.nongzi.server.service.customer.CustomerService;
 
 @Controller
@@ -74,12 +78,22 @@ public class CustomerController {
 	}
 
 	@RequestMapping("edit")
-	@RequiresRoles("admin")
+	@RequiresRoles(value = { "admin", "normal" }, logical = Logical.OR)
 	public String editProduct(HttpServletRequest request, Model model,
 			@RequestParam(value = "customerId", required = true) Integer customerId) {
+		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+
+		// 如果用户不是管理员账户,则只能编辑自己的信息
+		if (Integer.valueOf(AccountTypeEnum.ADMIN.getType()).equals(shiroUser.getType()) == false) {
+			customerId = shiroUser.getUserId();
+			if (customerId == null) {
+				throw new NongziException(RES_STATUS.CUSTOMER_NOT_EXITED);
+			}
+		}
+
 		Customer customer = customerService.getCustomerByCustomerId(customerId);
 		if (customer == null) {
-			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
+			throw new NongziException(RES_STATUS.CUSTOMER_NOT_EXITED);
 		}
 
 		model.addAttribute("customer", customer);
@@ -92,8 +106,19 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value = "edit.do", method = RequestMethod.POST)
-	@RequiresRoles("admin")
+	@RequiresRoles(value = { "admin", "normal" }, logical = Logical.OR)
 	public String editCustomerDo(Customer customer) {
+		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+
+		// 如果不是管理员账户,则只能编辑自己的信息
+		if (Integer.valueOf(AccountTypeEnum.ADMIN.getType()).equals(shiroUser.getType()) == false) {
+			Integer customerId = shiroUser.getUserId();
+			if (customerId == null) {
+				throw new NongziException(RES_STATUS.CUSTOMER_NOT_EXITED);
+			}
+			customer.setCustomerId(customerId);
+		}
+
 		customerService.updateCustomerByCustomerId(customer);
 		
 		return "redirect:/customer/list";
