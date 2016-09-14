@@ -128,4 +128,16 @@
   	and 
   		enable = 1
   </select>
+  
+  <select id="selectCustomerIdListByCustomerIdList" resultType="java.lang.Integer">
+	select
+	customer_id
+	from account
+	where
+	customer_id in
+	<foreach collection="list" item="item" index="index" open="("
+		separator="," close=")">
+		#{item}
+	</foreach>
+</select>
 </mapper>

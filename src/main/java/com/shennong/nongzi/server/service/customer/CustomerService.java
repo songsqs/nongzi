@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Customer;
+import com.shennong.nongzi.server.bean.entity.CustomerWithAccount;
 
 public interface CustomerService {
 
@@ -68,6 +69,14 @@ public interface CustomerService {
 	 * @return
 	 */
 	public List<Customer> getCustomerListByName(String name);
+
+	/**
+	 * 把customer转化为带有帐号相关信息的实例
+	 * 
+	 * @param customerList
+	 * @return
+	 */
+	public List<CustomerWithAccount> conversionCustomerWithAccount(List<Customer> customerList);
 
 
 }

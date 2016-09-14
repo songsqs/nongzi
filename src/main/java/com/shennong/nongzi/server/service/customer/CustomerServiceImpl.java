@@ -1,8 +1,11 @@
 package com.shennong.nongzi.server.service.customer;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Customer;
+import com.shennong.nongzi.server.bean.entity.CustomerWithAccount;
+import com.shennong.nongzi.server.dal.manager.AccountManager;
 import com.shennong.nongzi.server.dal.manager.CustomerManager;
 
 @Service
@@ -17,6 +22,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerManager customerManager;
+
+	@Autowired
+	private AccountManager accountManager;
 
 	@Override
 	public void addCustomer(Customer customer) {
@@ -91,6 +99,30 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<Customer> getCustomerListByName(String name) {
 		List<Customer> customerList = customerManager.selectCustomerListByName(name);
 		return customerList;
+	}
+
+	@Override
+	public List<CustomerWithAccount> conversionCustomerWithAccount(List<Customer> customerList) {
+		if (CollectionUtils.isEmpty(customerList)) {
+			return new ArrayList<>();
+		}
+		List<Integer> originCustomerIdList = new ArrayList<>();
+		for (Customer customerT : customerList) {
+			originCustomerIdList.add(customerT.getCustomerId());
+		}
+
+		List<Integer> resultCustomerIdList = accountManager.selectCustomerIdListByCustomerIdList(originCustomerIdList);
+		Set<Integer> customerIdSet = new HashSet<>(resultCustomerIdList);
+
+		List<CustomerWithAccount> customerWithAccountList = new ArrayList<>(customerList.size());
+
+		for (Customer customerT : customerList) {
+			CustomerWithAccount temp = new CustomerWithAccount(customerT);
+			temp.setHasAccount(customerIdSet.contains(customerT.getCustomerId()));
+			customerWithAccountList.add(temp);
+		}
+
+		return customerWithAccountList;
 	}
 
 }

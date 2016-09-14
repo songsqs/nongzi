@@ -30,6 +30,24 @@ public class Customer {
 
     private Byte enable;
 
+	public Customer() {
+
+	}
+
+	public Customer(Customer origin) {
+		this.customerId = origin.customerId;
+		this.name = origin.name;
+		this.mobile = origin.mobile;
+		this.birthday = origin.birthday;
+		this.province = origin.province;
+		this.city = origin.city;
+		this.district = origin.district;
+		this.village = origin.village;
+		this.createTime = origin.createTime;
+		this.updateTime = origin.updateTime;
+		this.enable = origin.enable;
+	}
+
 	public Integer getCustomerId() {
 		return customerId;
     }

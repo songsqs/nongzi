@@ -110,6 +110,9 @@
 												class="btn btn-primary">编辑</a> <a
 												onclick="deleteCustomer(${customer.customerId})"
 												class="btn btn-primary">删除</a>
+											<c:if test = "${!customer.hasAccount}">
+												<a class="btn btn-primary" onclick="createAccountForCustomer(${customer.customerId})">添加账户</a>
+											</c:if>
 										</div>
 									</td>
 									</shiro:hasRole>
@@ -142,6 +145,30 @@
 					success : function(msg) {
 						//对返回结果进行处理
 						alert("修改成功");
+						window.location.reload();
+					}
+				});
+			}else{
+				return false;
+			}
+		}
+		
+		function createAccountForCustomer(customerIdParam){
+			if(confirm("确定为选定的客户创建帐号？")){
+				$.ajax({
+					type:"post",
+					url:"/account/createCustomerAccount.do",
+					data:{
+						customerId:customerIdParam
+					},
+					success:function(msg){
+						//对返回结果进行处理
+						alert("创建账户成功");
+						window.location.reload();
+					},
+					error:function(msg){
+						//对返回结果进行处理
+						alert("创建账户失败,如果多次失败，请与管理员联系");
 						window.location.reload();
 					}
 				});

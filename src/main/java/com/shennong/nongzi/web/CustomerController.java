@@ -23,6 +23,7 @@ import com.shennong.nongzi.common.exception.NongziException;
 import com.shennong.nongzi.common.utils.RES_STATUS;
 import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Customer;
+import com.shennong.nongzi.server.bean.entity.CustomerWithAccount;
 import com.shennong.nongzi.server.service.customer.CustomerService;
 
 @Controller
@@ -64,7 +65,9 @@ public class CustomerController {
 
 		List<Customer> customerList = customerService.getCustomerListByParam(param, page);
 
-		model.addAttribute("customerList", customerList);
+		List<CustomerWithAccount> customerWithAccountList = customerService.conversionCustomerWithAccount(customerList);
+
+		model.addAttribute("customerList", customerWithAccountList);
 		model.addAttribute("page", page);
 
 		return "customer/customer_list";
