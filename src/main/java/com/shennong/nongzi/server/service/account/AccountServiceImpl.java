@@ -3,6 +3,8 @@ package com.shennong.nongzi.server.service.account;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -34,6 +36,8 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountRoleManager accountRoleManager;
+
+	private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
 	@Override
 	public Account getAccountByName(String name) {
@@ -91,11 +95,34 @@ public class AccountServiceImpl implements AccountService {
 		accountRoleManager.insertSelective(accountRole);
 	}
 
+	@Override
+	public boolean changePassword(Integer accountId, String originPassword, String newPassword) {
+		Account account = accountManager.selectAccountByAccountId(accountId);
+		if (account == null) {
+			return false;
+		}
+		String warpOriginPassword=entryptPassword(originPassword);
+		if(warpOriginPassword.equals(account.getPassword())==false){
+			logger.warn("The origin password is error");
+			return false;
+		}
+
+		String warpNewPassword = entryptPassword(newPassword);
+
+		account.setPassword(warpNewPassword);
+		account.setUpdateTime(new Date());
+		account.setEnable(true);
+
+		accountManager.updateByPrimaryKeySelective(account);
+
+		return true;
+	}
 	public static void main(String[] args) {
 		AccountServiceImpl accountServiceImpl = new AccountServiceImpl();
 		String plainPassword = "123456";
 		System.out.println(accountServiceImpl.entryptPassword(plainPassword));
 		System.out.println(accountServiceImpl.entryptPassword(plainPassword).length());
 	}
+
 
 }

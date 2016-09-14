@@ -24,4 +24,14 @@ public interface AccountService {
 	 */
 	public Account createCustomerAccount(Integer customerId);
 
+	/**
+	 * 更改密码
+	 * 
+	 * @param accountId
+	 * @param originPassword
+	 * @param newPassword
+	 * @return
+	 */
+	public boolean changePassword(Integer accountId, String originPassword, String newPassword);
+
 }

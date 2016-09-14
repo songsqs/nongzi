@@ -54,4 +54,26 @@ public class AccountManager {
 		}
 	}
 
+	public Account selectAccountByAccountId(Integer accountId) {
+		try {
+			Account account = accountMapper.selectAccountByAccountId(accountId);
+			logger.info("selectAccountByAccountId,result:" + account);
+			return account;
+		} catch (Exception e) {
+			logger.error("error when selectAccountByAccountId", e);
+			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
+		}
+	}
+
+	public int updateByPrimaryKeySelective(Account account) {
+		try {
+			int result = accountMapper.updateByPrimaryKeySelective(account);
+			logger.info("updateByPrimaryKeySelective,account:" + account + ",result:" + result);
+			return result;
+		} catch (Exception e) {
+			logger.error("error when updateByPrimaryKeySelective", e);
+			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
+		}
+	}
+
 }

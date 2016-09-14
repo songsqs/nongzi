@@ -23,4 +23,6 @@ public interface AccountMapper {
 	Account selectAccoutByName(@Param("name") String name);
 
 	List<Integer> selectCustomerIdListByCustomerIdList(List<Integer> originCustomerIdList);
+
+	Account selectAccountByAccountId(@Param("accountId") Integer accountId);
 }

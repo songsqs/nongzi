@@ -37,6 +37,7 @@ public class Customer {
 	public Customer(Customer origin) {
 		this.customerId = origin.customerId;
 		this.name = origin.name;
+		this.idNo = origin.idNo;
 		this.mobile = origin.mobile;
 		this.birthday = origin.birthday;
 		this.province = origin.province;

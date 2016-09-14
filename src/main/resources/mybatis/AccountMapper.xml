@@ -139,5 +139,15 @@
 		separator="," close=")">
 		#{item}
 	</foreach>
-</select>
+  </select>
+  
+  <select id="selectAccountByAccountId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from account
+  	where 
+  		account_id = #{accountId}
+  	and 
+  		enable = 1
+  </select>
 </mapper>
