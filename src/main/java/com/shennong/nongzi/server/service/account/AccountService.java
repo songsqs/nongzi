@@ -34,4 +34,11 @@ public interface AccountService {
 	 */
 	public boolean changePassword(Integer accountId, String originPassword, String newPassword);
 
+	/**
+	 * 重置密码
+	 * 
+	 * @param customerId
+	 */
+	public void resetPasswordByCustomerId(Integer customerId);
+
 }

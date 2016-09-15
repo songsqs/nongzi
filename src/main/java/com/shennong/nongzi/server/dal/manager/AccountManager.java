@@ -76,4 +76,15 @@ public class AccountManager {
 		}
 	}
 
+	public Account selectAccountByCustomerId(Integer customerId) {
+		try {
+			Account account = accountMapper.selectAccountByCustomerId(customerId);
+			logger.info("selectAccountByCustomerId,customerId:" + customerId + ",result:" + account);
+			return account;
+		} catch (Exception e) {
+			logger.error("error when selectAccountByCustomerId", e);
+			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
+		}
+	}
+
 }

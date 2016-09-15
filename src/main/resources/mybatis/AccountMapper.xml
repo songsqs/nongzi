@@ -150,4 +150,14 @@
   	and 
   		enable = 1
   </select>
+  
+  <select id="selectAccountByCustomerId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from account 
+  	where 
+  		customer_id = #{customerId}
+  	and 
+  		enable = 1
+  </select>
 </mapper>

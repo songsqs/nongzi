@@ -25,4 +25,6 @@ public interface AccountMapper {
 	List<Integer> selectCustomerIdListByCustomerIdList(List<Integer> originCustomerIdList);
 
 	Account selectAccountByAccountId(@Param("accountId") Integer accountId);
+
+	Account selectAccountByCustomerId(@Param("customerId") Integer customerId);
 }

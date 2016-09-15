@@ -117,6 +117,21 @@ public class AccountServiceImpl implements AccountService {
 
 		return true;
 	}
+
+	@Override
+	public void resetPasswordByCustomerId(Integer customerId) {
+		Account account = accountManager.selectAccountByCustomerId(customerId);
+		if (account == null) {
+			throw new NongziException(RES_STATUS.ACCOUNT_NOT_EXITED);
+		}
+
+		account.setPassword(entryptPassword(account.getName()));
+		account.setEnable(true);
+		account.setUpdateTime(new Date());
+
+		accountManager.updateByPrimaryKeySelective(account);
+	}
+
 	public static void main(String[] args) {
 		AccountServiceImpl accountServiceImpl = new AccountServiceImpl();
 		String plainPassword = "123456";

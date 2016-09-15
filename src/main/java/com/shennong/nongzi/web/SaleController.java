@@ -22,6 +22,7 @@ import com.shennong.nongzi.server.bean.entity.Customer;
 import com.shennong.nongzi.server.bean.entity.Product;
 import com.shennong.nongzi.server.bean.entity.Sale;
 import com.shennong.nongzi.server.bean.entity.ShiroUser;
+import com.shennong.nongzi.server.bean.enums.AccountTypeEnum;
 import com.shennong.nongzi.server.service.customer.CustomerService;
 import com.shennong.nongzi.server.service.product.ProductService;
 import com.shennong.nongzi.server.service.sale.SaleService;
@@ -152,10 +153,12 @@ public class SaleController {
 		//增加客户权限验证
 		boolean isAdmin=false;
 		ShiroUser shiroUser=(ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		if(shiroUser.getType()==0){
+		if (shiroUser.getType() == AccountTypeEnum.CUSTOMER.getType()) {
 			isAdmin=false;
 			param.clear();
 			param.put("customerId", shiroUser.getUserId());
+			param.put("timeBegin", StringUtil.realString(timeBegin));
+			param.put("timeEnd", StringUtil.realString(timeEnd));
 		}
 
 		Map<String, String> optionMap = saleService.getSaleCustomerOptionByParam(param,isAdmin);

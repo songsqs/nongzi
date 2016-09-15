@@ -69,7 +69,7 @@
 							<select id="productSelect" class="form-control" onChange="onProductChange(this)">
 								<option disabled selected>请选择产品</option>
 								<c:forEach items="${productList}" var="product">
-									<option value="${product.price }" id="${product.productId}" >${product.name}</option>
+									<option value="${product.price }" id="${product.productId}" title=${product.priceLower}>${product.name}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -96,6 +96,7 @@
 						<div class="col-sm-10">
 							<input type="number" class="form-control" id="priceId"
 								placeholder="单价" name="price">
+							<input type="hidden" id="priceLowerId">
 						</div>
 					</div>
 					<div class="form-group">
@@ -113,7 +114,7 @@
 						</div>
 						<div class="col-sm-10">
 							<input type="number" class="form-control" id="totalPriceId"
-								placeholder="总价" name="totalPrice">
+								placeholder="总价" name="totalPrice" onInput="onTotalPriceInput()">
 						</div>
 					</div>
 					<div class="form-group">
@@ -215,6 +216,7 @@
 			//productNameId.vaule=selectedItem.options[selectedItem.options.selectedIndex].text;
 			$('#productNameId').val(selectedItem.options[selectedItem.options.selectedIndex].text);
 			priceId.value=selectedItem.options[selectedItem.options.selectedIndex].value;
+			priceLowerId.value=selectedItem.options[selectedItem.options.selectedIndex].title;
 		}
 		
 		function onCustomerChange(selectedItem){
@@ -234,7 +236,35 @@
 			}
 			
 			var totalPrice=price * num;
-			$('#totalPriceId').val(totalPrice);			
+			$('#totalPriceId').val(totalPrice);	
+			
+			var priceLower=$("#priceLowerId").val();
+			if(isNaN(priceLower)){
+				return false;
+			}
+			
+			var profit = totalPrice - priceLower * num;
+			$("#profitId").val(profit);
+		}
+		
+		function onTotalPriceInput(){
+			var totalPrice=$("#totalPriceId").val();
+			if(isNaN(totalPrice)){
+				return false;
+			}
+			
+			var num=$("#numId").val();
+			if(isNaN(num)){
+				return false;
+			}
+			
+			var priceLower=$("#priceLowerId").val();
+			if(isNaN(priceLower)){
+				return false;
+			}
+			
+			var profit = totalPrice - priceLower * num;
+			$("#profitId").val(profit);
 		}
 
 		function onSubmit() {

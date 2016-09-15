@@ -111,7 +111,7 @@
 												onclick="deleteCustomer(${customer.customerId})"
 												class="btn btn-primary">删除</a>
 											<c:if test = "${!customer.hasAccount}">
-												<a class="btn btn-primary" onclick="createAccountForCustomer(${customer.customerId})">添加账户</a>
+												<a class="btn btn-primary" onclick="createAccountForCustomer(${customer.customerId})">创建账户</a>
 											</c:if>
 										</div>
 									</td>

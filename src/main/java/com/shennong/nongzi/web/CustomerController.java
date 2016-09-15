@@ -2,6 +2,7 @@ package com.shennong.nongzi.web;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -95,8 +97,15 @@ public class CustomerController {
 		if (customer == null) {
 			throw new NongziException(RES_STATUS.CUSTOMER_NOT_EXITED);
 		}
+		
+		List<CustomerWithAccount> customerWithAccountList = customerService
+				.conversionCustomerWithAccount(Arrays.asList(customer));
 
-		model.addAttribute("customer", customer);
+		if (CollectionUtils.isEmpty(customerWithAccountList)) {
+			throw new NongziException(RES_STATUS.CUSTOMER_NOT_EXITED);
+		}
+
+		model.addAttribute("customer", customerWithAccountList.get(0));
 		Date birthday = customer.getBirthday();
 		if (birthday != null) {
 			model.addAttribute("birthday", FORMATER.format(customer.getBirthday()));

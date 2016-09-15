@@ -22,8 +22,16 @@ public class AccountController {
 	@RequestMapping(value = "createCustomerAccount.do", method = RequestMethod.POST)
 	@ResponseBody
 	@RequiresRoles("admin")
-	public String createAccount(@RequestParam(value = "customerId", required = true) Integer customerId) {
+	public String createAccountDo(@RequestParam(value = "customerId", required = true) Integer customerId) {
 		accountService.createCustomerAccount(customerId);
+		return "success";
+	}
+
+	@RequestMapping(value = "resetPassword.do", method = RequestMethod.POST)
+	@ResponseBody
+	@RequiresRoles("admin")
+	public String resetPasswordDo(@RequestParam(value = "customerId", required = true) Integer customerId) {
+		accountService.resetPasswordByCustomerId(customerId);
 		return "success";
 	}
 

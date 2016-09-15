@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
@@ -115,6 +116,14 @@
 						<div class="col-sm-offset-2 col-sm-10">
 							<button type="submit" class="btn btn-default"
 								onclick="return onSubmit();">确定</button>
+							<shiro:hasRole name="admin">
+								<c:if test="${customer.hasAccount}">
+									<input type="button" value="重置密码" class="btn btn-default" onclick="resetPassword(${customer.customerId})">
+								</c:if>
+								<c:if test="${!customer.hasAccount}">
+									<input type="button" value="创建账户" class="btn btn-default" onclick="createCustomerAccount(${customer.customerId})">
+								</c:if>
+							</shiro:hasRole>
 							<a href="/customer/list">
 								<button type="button" class="btn btn-default">取消</button>
 							</a>
@@ -138,6 +147,51 @@
 			}
 
 			return true;
+		}
+		
+		function resetPassword(customerIdParam){
+			$.ajax({
+				type:"post",
+				url:"/account/resetPassword.do",
+				data:{
+					customerId:customerIdParam
+				},
+				success:function(msg){
+					if("success"==msg){
+						alert("操作成功！");
+						window.location.reload();
+					}else{
+						alert("操作失败,如果多次失败,请联系管理员");
+						window.location.reload();
+					}
+				},
+				error:function(msg){
+					alert("操作失败,如果多次失败,请联系管理员");
+					window.location.reload();
+				}
+			});
+		}
+		
+		function createCustomerAccount(customerIdParam){
+			$.ajax({
+				type:"post",
+				url:"/account/createCustomerAccount.do",
+				data:{
+					customerId:customerIdParam
+				},
+				success:function(msg){
+					if("success"==msg){
+						alert("操作成功！");
+						window.location.reload();
+					}else{
+						alert("操作失败,如果多次失败,请联系管理员");
+						window.location.reload();
+					}
+				},
+				error:function(msg){
+					alert("操作失败,如果多次失败,请联系管理员");
+				}
+			});
 		}
 	</script>
 </body>
