@@ -47,9 +47,15 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- 装饰模板 -->
-	<!-- <filter> <filter-name>sitemeshFilter</filter-name> <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class> 
-		</filter> <filter-mapping> <filter-name>sitemeshFilter</filter-name> <url-pattern>/*</url-pattern> 
-		</filter-mapping> -->
+	<filter>
+		<filter-name>sitemeshFilter</filter-name>
+		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>sitemeshFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 装饰模板 end-->
 	<servlet>
 		<servlet-name>springServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

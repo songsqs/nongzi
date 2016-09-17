@@ -2,46 +2,51 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
-	<div class="navbar-header">
-		<a class="navbar-brand" href="#">风华农资超市</a>
-	</div>
-	<div>
-		<ul class="nav navbar-nav">
-			<shiro:hasRole name="admin">
-			<li><a href="/sale/list">销售列表</a></li>
-			</shiro:hasRole>
-			<shiro:hasRole name="normal">
-			<li><a href="/sale/chart/customer">销售列表</a></li>
-			</shiro:hasRole>
-			<li><a href="/customer/list">客户管理</a></li>
-			<li><a href="/product/list">产品管理</a></li>
-		</ul>
-	</div>
-	<div>
-		<ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
-			<li>
-				<div class="dropdown">
-					<button type="button" class="btn dropdown-toggle" id="dropdownmenu"
-						data-toggle="dropdown">
-						<span class="glyphicon glyphicon-user btn-lg"></span> <shiro:principal property="username"/>
-						<span class="caret"></span> 
-					</button>
-					<ul class="dropdown-menu" role="menu"
-						aria-labelledby="dropdownmenu">
-						<shiro:hasRole name="normal">
-							<li role="presentation">
-								<a role="menuitem" tabindex="1" href="/customer/edit?customerId=<shiro:principal property="userId"/> ">个人信息管理</a>
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+			</a>
+			<a class="brand" href="#"><span>风华农资超市</span></a>
+			<div class="nav-no-collapse header-nav">
+				<ul class="nav pull-right">
+					<li class="dropdown">
+						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+							<i class="halflings-icon white user"></i>
+							<shiro:principal property="username"/>
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="dropdown-menu-title">
+								<span>账户设置</span>
 							</li>
-						</shiro:hasRole>
-						<li role="presentation"><a role="menuitem" tabindex="1"
-							href="/account/changePassword">修改密码</a></li>
-						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a role="menuitem" tabindex="1"
-							href="/logout">退出</a></li>
-					</ul>
-				</div>
-			</li>
-		</ul>
+							<shiro:hasRole name="normal">
+								<li >
+									<a href="/customer/edit?customerId=<shiro:principal property="userId" />" >
+										<i class="halflings-icon user"></i>
+										个人信息管理
+									</a>
+								</li>
+							</shiro:hasRole>
+							<li>
+								<a href="/account/changePassword">
+									<i class="halflings-icon lock"></i>
+									修改密码
+								</a>
+							</li>
+							<li>
+								<a href="/logout">
+									<i class="halflings-icon remove-sign"></i>
+									退出
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
-</nav>
+</div>
