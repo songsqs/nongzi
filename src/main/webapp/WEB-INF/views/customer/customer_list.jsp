@@ -3,113 +3,114 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 
-<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
 
 <html>
-	<head>
-		<title>客户管理</title>
-	</head>
+<head>
+<title>客户管理</title>
+</head>
 
-	<body>
-
-		<form action="" class="form-horizontal" role="form">
-			<table class="table">
-				<tbody>
-					<tr>
-						<td>
-							<div class="form-group">
-								<label for="nameId" class="col-sm-2 control-label">姓名</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="nameId" name="name" placeholder="请输入姓名" value="${param.name }"></div>
-								</div>
-							</td>
-							<td>
-								<div class="form-group">
-									<label for="mobileId" class="col-sm-2 control-label">手机</label>
-									<div class="col-sm-10">
-										<input type="number" class="form-control" id="mobileId" name="mobile" placeholder="请输入手机" value="${param.mobile}"></div>
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<label for="villageId" class="col-sm-2 control-label">村</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" id="villageId" name="village" placeholder="请输入村" value="${param.village}"/>
-										</div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="4">
-									<div class="form-group">
-										<input class="btn btn-default" type="submit" value="查询"/>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</form>
-				<div class="container-fluid">
-					<table class="table table-bordered">
-						<thead>
-							<tr class="success">
-								<th>姓名</th>
-								<th>身份证号</th>
-								<th>手机</th>
-								<th>生日</th>
-								<th>省</th>
-								<th>市</th>
-								<th>区(乡)</th>
-								<th>村</th>
-								<shiro:hasRole name="admin">
-									<th>操作</th>
-								</shiro:hasRole>
-							</tr>
-						</thead>
-						<tbody>
-							<c:if test="${empty customerList}">
-								<tr>
-									<td colspan="8" align="center">暂无数据</td>
-								</tr>
-							</c:if>
-							<c:forEach items="${customerList}" var="customer">
-								<tr>
-									<td style="font-size: 150%">${customer.name }</td>
-									<td style="font-size: 150%">${customer.idNo}</td>
-									<td style="font-size: 150%">${customer.mobile}</td>
-									<td style="font-size: 150%"><fmt:formatDate value="${customer.birthday}" pattern="yyyy-MM-dd"/></td>
-									<td style="font-size: 150%">${customer.province}</td>
-									<td style="font-size: 150%">${customer.city}</td>
-									<td style="font-size: 150%">${customer.district}</td>
-									<td style="font-size: 150%">${customer.village}</td>
-									<shiro:hasRole name="admin">
-										<td>
-											<div class="btn-group">
-												<a href="/customer/edit?customerId=${customer.customerId }" class="btn btn-primary">编辑</a>
-												<a onclick="deleteCustomer(${customer.customerId})" class="btn btn-primary">删除</a>
-												<c:if test="${!customer.hasAccount}">
-													<a class="btn btn-primary" onclick="createAccountForCustomer(${customer.customerId})">创建账户</a>
-												</c:if>
-											</div>
-										</td>
-									</shiro:hasRole>
-								</tr>
-							</c:forEach>
-
-						</tbody>
-					</table>
-				</div>
-				<c:set var="searchParams" value="name=${param.name}&mobile=${param.mobile}&village=${param.village}"/>
-				<%@ include file="../layout/pager.jsp" %>
-				<shiro:hasRole name="admin">
-					<div class="section">
-						<a class="btn btn-default btn-lg" href="/customer/add">添加客户</a>
+<body>
+	<div class="box-span12" style="opacity: 1.0">
+		<div class="box-header" data-original-title>
+			<h2>
+				<i class="icon-user"></i> <span class="break"></span> 客户列表
+			</h2>
+		</div>
+		<div class="box-content">
+			<form action="">
+				<div class="row-fluid">
+					<div class="span4">
+						<div class="dataaTables_filter" id="nameDiv">
+							<label> 姓名: <input type="text" aria-controls="nameDiv"
+								placeholder="姓名" name="name" value="${param.name }">
+							</label>
+						</div>
 					</div>
-				</shiro:hasRole>
+					<div class="span4">
+						<div class="dataaTables_filter" id="mobileDiv">
+							<label> 手机: <input type="tel" aria-controls="mobileDiv"
+								placeholder="手机" name="mobile" value="${param.mobile }">
+							</label>
+						</div>
+					</div>
+					<div class="span4">
+						<div class="dataaTables_filter" id="villageDiv">
+							<label> 村: <input type="text" aria-controls="villageDiv"
+								placeholder="村" name="village" value="${param.village }">
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<input class="btn btn-primary" type="submit" value="查询" />
+				</div>
+			</form>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>姓名</th>
+						<th>身份证号</th>
+						<th>手机</th>
+						<th>生日</th>
+						<th>省</th>
+						<th>市</th>
+						<th>区(乡)</th>
+						<th>村</th>
+						<shiro:hasRole name="admin">
+							<th>操作</th>
+						</shiro:hasRole>
+					</tr>
+				</thead>
+				<tbody>
+					<c:if test="${empty customerList}">
+						<tr>
+							<td colspan="8" align="center">暂无数据</td>
+						</tr>
+					</c:if>
+					<c:forEach items="${customerList}" var="customer">
+						<tr>
+							<td>${customer.name }</td>
+							<td>${customer.idNo}</td>
+							<td>${customer.mobile}</td>
+							<td><fmt:formatDate value="${customer.birthday}"
+									pattern="yyyy-MM-dd" /></td>
+							<td>${customer.province}</td>
+							<td>${customer.city}</td>
+							<td>${customer.district}</td>
+							<td>${customer.village}</td>
+							<shiro:hasRole name="admin">
+								<td>
+									<div class="btn-group">
+										<a href="/customer/edit?customerId=${customer.customerId }"
+											class="btn btn-primary">编辑</a> <a
+											onclick="deleteCustomer(${customer.customerId})"
+											class="btn btn-primary">删除</a>
+										<c:if test="${!customer.hasAccount}">
+											<a class="btn btn-primary"
+												onclick="createAccountForCustomer(${customer.customerId})">创建账户</a>
+										</c:if>
+									</div>
+								</td>
+							</shiro:hasRole>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			<c:set var="searchParams"
+				value="name=${param.name}&mobile=${param.mobile}&village=${param.village}" />
+			<%@ include file="../layout/pager.jsp"%>
+			<shiro:hasRole name="admin">
+				<div class="row-fluid">
+					<a class="btn btn-primary btn-lg" href="/customer/add">添加客户</a>
+				</div>
+			</shiro:hasRole>
+		</div>
+	</div>
 
-				<script type="text/javascript">
+	<script type="text/javascript">
 					function deleteCustomer(customerIdParam) {
 						if (confirm("确定删除选中的客户？")) {
 							$.ajax({
@@ -153,5 +154,5 @@
 						}
 					}
 				</script>
-			</body>
-		</html>
+</body>
+</html>

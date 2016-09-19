@@ -33,7 +33,7 @@
 								<div class="dataaTables_filter" id="manufacturerDiv">
 									<label>
 										供应商:
-										<input type="text" aria-controls="manufacturerDiv" placeholder="请输入供应商名" name="manufacturer" value="${param.manufacturer}">
+										<input type="text" aria-controls="manufacturerDiv" placeholder="请输入供应商名" name="manufacturer" value="${param.manufacturer }">
 									</label>
 								</div>
 							</div>
