@@ -18,7 +18,7 @@
 			</h2>
 		</div>
 		<div class="box-content">
-			<form action="" class="form-horizontal">
+			<form action="/product/add.do" class="form-horizontal" method="post">
 				<fieldset>
 					<div class="control-group">
 						<label class="control-label" for="nameId">

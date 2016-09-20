@@ -11,7 +11,7 @@
 	</head>
 
 	<body>
-
+<!-- 
 		<form class="form-horizontal" role="form" action="edit.do" method="post">
 			<div class="form-group">
 				<div class="col-sm-2">
@@ -86,7 +86,18 @@
 												</div>
 											</div>
 										</form>
-
+ -->
+ 		<div class="box span12">
+ 			<div class="box-header" data-original-title>
+ 				<h2>
+ 					<i class="icon-user"></i>
+ 					<span class="break"></span>
+ 					编辑客户信息
+ 				</h2>
+ 			</div>
+ 			<div class="box-content">
+ 			</div>
+ 		</div>
 										<script type="text/javascript">
 											$('#birthdayId').datetimepicker({language: 'zh-CN', format: 'yyyy-mm-dd', minView: 2});
 
