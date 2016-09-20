@@ -15,7 +15,7 @@
 			<h2>
 				<i class="halflings-icon edit"></i> 
 				<span class="break"></span> 
-				添加产品
+				编辑产品信息
 			</h2>
 		</div>
 		<div class="box-content">
@@ -27,7 +27,7 @@
 							产品名称:
 						</label>
 						<div class="controls">
-							<input type="text" class="input-xlarge" name="name" id="nameId" value="${product.name }" >
+							<input type="text" class="input-xlarge" name="name" id="nameId" value="${product.name }" placeholder="产品名称" >
 						</div>
 					</div>
 					<div class="control-group">
@@ -35,7 +35,7 @@
 							制造商:
 						</label>
 						<div class="controls">
-							<input type="text" class="input-xlarge" name="manufacturer" id="manufacturerId" value="${product.manufacturer }" >
+							<input type="text" class="input-xlarge" name="manufacturer" id="manufacturerId" value="${product.manufacturer }" placeholder="制造商">
 						</div>
 					</div>
 					
@@ -44,7 +44,7 @@
 							单价(元):
 						</label>
 						<div class="controls">
-							<input type="number" class="input-xlarge" name="price" id="priceId" value="${product.price }" >
+							<input type="number" class="input-xlarge" name="price" id="priceId" value="${product.price }" placeholder="单价">
 						</div>
 					</div>
 					<div class="control-group">
@@ -52,7 +52,7 @@
 							最低价格(元):
 						</label>
 						<div class="controls">
-							<input type="number" class="input-xlarge" name="priceLower" id="priceLowerId" value="${product.priceLower }" >
+							<input type="number" class="input-xlarge" name="priceLower" id="priceLowerId" value="${product.priceLower }" placeholder="最低价格">
 						</div>
 					</div>
 					<div class="form-actions">

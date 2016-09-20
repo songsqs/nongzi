@@ -48,13 +48,6 @@
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label" for="provinceId"> 手机: </label>
-						<div class="controls">
-							<input type="text" class="input-xlarge" name="province"
-								id="provinceId" placeholder="省">
-						</div>
-					</div>
-					<div class="control-group">
 						<label class="control-label" for="provinceId"> 省: </label>
 						<div class="controls">
 							<input type="text" class="input-xlarge" name="province"
