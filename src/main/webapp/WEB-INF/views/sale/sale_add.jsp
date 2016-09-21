@@ -142,15 +142,38 @@
 						<label class="control-label" for="productNameSelectId">
 							产品名称: </label>
 						<div class="controls">
-							<input type="hidden" id="productIdId" name="productId" /> <input
-								type="hidden" id="productNameId" name="productName" /> <select
-								id="productNameSelect" onchange="onProductChange(this)">
+							<input type="hidden" id="productIdId" name="productId" /> 
+							<input type="hidden" id="productNameId" name="productName" /> 
+							<select id="productNameSelect" onchange="onProductChange(this)">
 								<option disabled selected>请选择产品</option>
 								<c:forEach items="${productList }" var="product">
 									<option value="${product.price }" id="${product.productId }"
 										title="${product.priceLower }">${product.name }</option>
 								</c:forEach>
 							</select>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="customerNameSelectId">
+							姓名:
+						</label>
+						<div class="controls">
+							<input type="hidden" id="customerIdId" name="customerId">
+							<input type="hidden" id="customerNameId" name="customerName">
+							<select id="customerSelect" onChange="onCustomerChange(this)">
+								<option disabled selected>请选择客户</option>
+								<c:forEach items="${customerList}" var="customer">
+									<option value="${customer.name}" id="${customer.customerId}">${customer.name}-${customer.mobile}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="priceId">
+							单价(元):
+						</label>
+						<div class="controls">
+							<input type="number" class="input-xlarge" id="priceId" name="price" placeholder="单价" />
 						</div>
 					</div>
 				</fieldset>
@@ -166,8 +189,7 @@
 		});
 
 		function onProductInput(productName) {
-			$
-					.ajax({
+			$.ajax({
 						url : "/product/getProduct.do",
 						type : "post",
 						data : {
@@ -200,8 +222,7 @@
 		}
 
 		function onCustomerInput(customerName) {
-			$
-					.ajax({
+			$.ajax({
 						url : "/customer/getCustomer.do",
 						type : "post",
 						data : {
@@ -239,9 +260,7 @@
 		function onProductChange(selectedItem) {
 			productIdId.value = selectedItem.options[selectedItem.options.selectedIndex].id;
 			//productNameId.vaule=selectedItem.options[selectedItem.options.selectedIndex].text;
-			$('#productNameId')
-					.val(
-							selectedItem.options[selectedItem.options.selectedIndex].text);
+			$('#productNameId').val(selectedItem.options[selectedItem.options.selectedIndex].text);
 			priceId.value = selectedItem.options[selectedItem.options.selectedIndex].value;
 			priceLowerId.value = selectedItem.options[selectedItem.options.selectedIndex].title;
 		}
