@@ -123,20 +123,22 @@
 				<div class="span6">
 					<div class="dataaTables_filter" id="customerNameDiv">
 						<label> 姓名: <input type="text"
-							aria-controls="customerNameDiv" placeholder="请输入姓名以搜索">
+							aria-controls="customerNameDiv" placeholder="请输入姓名以搜索" 
+							oninput="onCustomerInput(this.value)">
 						</label>
 					</div>
 				</div>
 				<div class="span6">
 					<div class="dataaTables_filter" id="productNameDiv">
 						<label> 产品: <input type="text"
-							aria-controls="productNameDiv" placeholder="请输入产品名以搜索">
+							aria-controls="productNameDiv" placeholder="请输入产品名以搜索"
+							oninput="onProductInput(this.value)" >
 						</label>
 					</div>
 				</div>
 			</div>
 
-			<form action="/sale/add.do" class="form-horizontal" method="post">
+			<form  class="form-horizontal" id="saleAddForm">
 				<fieldset>
 					<div class="control-group">
 						<label class="control-label" for="productNameSelectId">
@@ -144,7 +146,7 @@
 						<div class="controls">
 							<input type="hidden" id="productIdId" name="productId" /> 
 							<input type="hidden" id="productNameId" name="productName" /> 
-							<select id="productNameSelect" onchange="onProductChange(this)">
+							<select id="productNameSelectId" onchange="onProductChange(this)">
 								<option disabled selected>请选择产品</option>
 								<c:forEach items="${productList }" var="product">
 									<option value="${product.price }" id="${product.productId }"
@@ -160,7 +162,7 @@
 						<div class="controls">
 							<input type="hidden" id="customerIdId" name="customerId">
 							<input type="hidden" id="customerNameId" name="customerName">
-							<select id="customerSelect" onChange="onCustomerChange(this)">
+							<select id="customerNameSelectId" onChange="onCustomerChange(this)">
 								<option disabled selected>请选择客户</option>
 								<c:forEach items="${customerList}" var="customer">
 									<option value="${customer.name}" id="${customer.customerId}">${customer.name}-${customer.mobile}</option>
@@ -173,8 +175,56 @@
 							单价(元):
 						</label>
 						<div class="controls">
-							<input type="number" class="input-xlarge" id="priceId" name="price" placeholder="单价" />
+							<input type="hidden" id="priceLowerId" />
+							<input type="number" class="input-xlarge" id="priceId" name="price" 
+								placeholder="单价" />
 						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="numId">
+							数量:
+						</label>
+						<div class="controls">
+							<input type="number" class="input-xlarge" id="numId" name="num" 
+								placeholder="数量" oninput="onNumInput()"/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="totalPriceId">
+							总价(元): 
+						</label>
+						<div class="controls">
+							<input type="number" class="input-xlarge" id="totalPriceId" name="totalPrice"
+								placeholder="总价"  oninput="onTotalPriceInput()"/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="profitId">
+							利润(元):
+						</label>
+						<div class="controls">
+							<input type="number" class="input-xlarge" id="profitId" name="profit"
+								placeholder="利润" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="createTimeId">
+							销售时间:
+						</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="createTimeId" name="createTime"
+								placeholder="销售时间" onfocus="this.blur()" />
+						</div>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary" onclick="return onSubmit()">
+							确定
+						</button>
+						<a href="/product/list">
+							<button type="button" class="btn btn-default">
+								取消
+							</button>
+						</a>
 					</div>
 				</fieldset>
 			</form>
@@ -197,9 +247,10 @@
 						},
 						cache : "false",
 						success : function(data) {
+							//console.log(data);
 							var jsonArray = jQuery.parseJSON(data);
 							//操作产品下拉框
-							var obj = $('#productSelect');
+							var obj = $('#productNameSelectId');
 							obj.empty();
 
 							$("<option></option>").attr('disabled', 'disabled')
@@ -210,8 +261,8 @@
 									function(index, json) {
 										console.log("#" + index + ",json:"
 												+ json.name);
-										$('<option></option>').attr('id',
-												json.productId).val(json.price)
+										$('<option></option>').attr('id',json.productId).
+											attr("title",json.priceLower).val(json.price)
 												.text(json.name).appendTo(obj);
 									});
 						},
@@ -230,9 +281,10 @@
 						},
 						cache : "false",
 						success : function(data) {
+							//console.log(data);
 							var jsonArray = jQuery.parseJSON(data);
 							//操作客户下拉框
-							var obj = $('#customerSelect');
+							var obj = $('#customerNameSelectId');
 							obj.empty();
 
 							$("<option></option>").attr('disabled', 'disabled')
@@ -245,9 +297,7 @@
 												+ json.name);
 										$('<option></option>').attr('id',
 												json.customerId).val(json.name)
-												.text(
-														json.name + '-'
-																+ json.mobile)
+												.text(json.name + '-'+ json.mobile)
 												.appendTo(obj);
 									});
 						},
@@ -281,7 +331,7 @@
 				return false;
 			}
 
-			var totalPrice = price * num;
+			var totalPrice = (Number(price * num)).toFixed(2);
 			$('#totalPriceId').val(totalPrice);
 
 			var priceLower = $("#priceLowerId").val();
@@ -289,7 +339,7 @@
 				return false;
 			}
 
-			var profit = totalPrice - priceLower * num;
+			var profit = (Number(totalPrice - priceLower * num)).toFixed(2);
 			$("#profitId").val(profit);
 		}
 
@@ -309,7 +359,7 @@
 				return false;
 			}
 
-			var profit = totalPrice - priceLower * num;
+			var profit = (Number(totalPrice - priceLower * num)).toFixed(2);
 			$("#profitId").val(profit);
 		}
 

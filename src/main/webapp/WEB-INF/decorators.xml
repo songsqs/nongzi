@@ -2,6 +2,13 @@
 <decorators defaultdir="/WEB-INF/views/layout">
     <excludes>
         <pattern>/login</pattern>
+        <pattern>/product/getProduct.do</pattern>
+        <pattern>/customer/getCustomer.do</pattern>
+        <pattern>/account/*.do</pattern>
+        <pattern>/customer/delete.do</pattern>
+        <pattern>/product/delete.do</pattern>
+        <pattern>/sale/add.do</pattern>
+        <pattern>/sale/delete.do</pattern>
     </excludes>
 
     <decorator name="default" page="default.jsp">

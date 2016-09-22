@@ -59,7 +59,7 @@
 	type="text/javascript" charset="UTF-8"></script>
 <!--datetimepicker end -->
 
-<sitemesh:head/>
+<title><sitemesh:title/></title>
 </head>
 
 <body style="background-image:url(/resource/images/common/harvest.jpg);background-position:center; background-size:cover">
