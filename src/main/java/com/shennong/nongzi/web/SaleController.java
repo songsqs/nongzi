@@ -51,7 +51,7 @@ public class SaleController {
 			@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("customerName", StringUtil.realString(customerName));
-		param.put("prodctName", StringUtil.realString(productName));
+		param.put("productName", StringUtil.realString(productName));
 		param.put("timeBegin", StringUtil.realString(timeBegin));
 		param.put("timeEnd", StringUtil.realString(timeEnd));
 

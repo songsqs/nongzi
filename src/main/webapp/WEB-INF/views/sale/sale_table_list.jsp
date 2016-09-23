@@ -47,7 +47,7 @@
 							<label>
 								时间:
 								<input type="text" aria-controls="timeBeginDiv" placeholder="起始时间"
-									name="timeBegin" onfocus="this.blur()" id="timeBeginId" />
+									name="timeBegin" onfocus="this.blur()" id="timeBeginId" value="${param.timeBegin }" />
 							</label>
 						</div>
 					</div>
@@ -56,7 +56,7 @@
 							<label>
 								至
 								<input type="text" aria-controls="timeEndDiv" placeholder="结束时间"
-									name="timeEnd" onfocus="this.blur()" id="timeEndId" />
+									name="timeEnd" onfocus="this.blur()" id="timeEndId" value="${param.timeEnd }" />
 							</label>
 						</div>
 					</div>
