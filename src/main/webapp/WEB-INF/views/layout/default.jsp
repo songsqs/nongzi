@@ -59,6 +59,8 @@
 	type="text/javascript" charset="UTF-8"></script>
 <!--datetimepicker end -->
 
+<sitemesh:head />
+
 <title><sitemesh:title/></title>
 </head>
 

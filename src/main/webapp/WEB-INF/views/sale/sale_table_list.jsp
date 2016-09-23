@@ -12,99 +12,103 @@
 </head>
 
 <body>
-<%@ include file="../layout/sale_nav.jsp" %>
-<form action="" class="form-horizontal" role="form">
-	<table class="table">
-		<tbody>
-			<tr>
-				<td>
-					<div class="form-group">
-						<label for="customerName" class="col-sm-2 control-label">姓名</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="customerNameId" name="customerName" placeholder="请输入姓名" value="${param.customerName}"></div>
+	<%@ include file="../layout/sale_nav.jsp" %>
+	<div class="span12">
+		<div class="box-header" data-origin-title>
+			<h2>
+				<i class="icon-bar-chart"></i>
+				<span class="break"></span>
+				销售列表
+			</h2>
+		</div>
+		<div class="box-content">
+			<form action="" >
+				<div class="row-fluid">
+					<div class="span3">
+						<div class="dataaTables_filter" id="customerNameDiv">
+							<label>
+								姓名:
+								<input type="text" aria-controls="customerNameDiv" placeholder="姓名"
+									name="customerName" value="${param.customerName }" />
+							</label>
 						</div>
-					</td>
-					<td>
-						<div class="form-group">
-							<label for="productName" class="col-sm-2 control-label">产品</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" id="productNameId" name="productName" placeholder="请输入产品名" value="${param.productName }"></div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">
-								<label for="timeBeginId" class="col-sm-2 control-label">时间</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="timeBeginId" name="timeBegin" placeholder="请选择时间" onfocus=this.blur() value="${param.timeBegin }"></div>
-								</div>
+					</div>
+					<div class="span3">
+						<div class="dataaTables_filter" id="productNameDiv">
+							<label>
+								产品:
+								<input type="text" aria-controls="productNameDiv" placeholder="产品名"
+									name="productName" value="${param.productName }" />
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="dataaTables_filter" id="timeBeginDiv">
+							<label>
+								时间:
+								<input type="text" aria-controls="timeBeginDiv" placeholder="起始时间"
+									name="timeBegin" onfocus="this.blur()" id="timeBeginId" />
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="dataaTables_filter" id="timeEndDiv">
+							<label>
+								至
+								<input type="text" aria-controls="timeEndDiv" placeholder="结束时间"
+									name="timeEnd" onfocus="this.blur()" id="timeEndId" />
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<input type="submit" class="btn btn-primary" value="查询" />
+				</div>
+			</form>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>产品</th>
+						<th>姓名</th>
+						<th>单价(元)</th>
+						<th>数量</th>
+						<th>总价(元)</th>
+						<th>利润(元)</th>
+						<th>销售时间</th>
+						 <th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:if test="${empty saleList }">
+						<tr>
+							<td colspan="8" align="center">
+								暂无数据
 							</td>
+						</tr>
+					</c:if>
+					<c:forEach items="${saleList }" var="sale">
+						<tr>
+							<td>${sale.productName }</td>
+							<td>${sale.customerName }</td>
+							<td>${sale.price }</td>
+							<td>${sale.num }</td>
+							<td>${sale.totalPrice }</td>
+							<td>${sale.profit }</td>
+							<td><fmt:formatDate value="${sale.createTime }" pattern="yyyy-MM-dd" /></td>
 							<td>
-								<div class="form-group">
-									<label for="timeEndId" class="col-sm-2 control-label">至</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control" id="timeEndId" name="timeEnd" placeholder="请选择时间" onfocus=this.blur() value="${param.timeEnd }"></div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="4">
-									<div class="form-group">
-										<input class="btn btn-default" type="submit" value="查询"/>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</form>
-
-				<div class="container-fluid">
-					<table class="table table-bordered">
-						<thead>
-							<tr class="success">
-								<th>产品</th>
-								<th>姓名</th>
-								<th>单价(元)</th>
-								<th>数量</th>
-								<th>总价(元)</th>
-								<th>利润(元)</th>
-								<th>销售时间</th>
-								<th>操作</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:if test="${empty saleList}">
-								<tr>
-									<td colspan="8" align="center">
-										暂无数据
-									</td>
-								</tr>
-							</c:if>
-							<c:forEach items="${saleList}" var="sale">
-								<tr>
-									<td style="font-size: 150%">${sale.productName }</td>
-									<td style="font-size: 150%">${sale.customerName}</td>
-									<td style="font-size: 150%">${sale.price}</td>
-									<td style="font-size: 150%">${sale.num}</td>
-									<td style="font-size: 150%">${sale.totalPrice}</td>
-									<td style="font-size: 150%">${sale.profit}</td>
-									<td style="font-size: 150%"><fmt:formatDate value="${sale.createTime}" pattern="yyyy-MM-dd"/></td>
-									<td>
-										<div class="btn-group">
-											<a onclick="deleteProduct(${sale.saleId})" class="btn btn-primary">删除</a>
-										</div>
-									</td>
-								</tr>
-							</c:forEach>
-
-						</tbody>
-					</table>
-				</div>
-				<c:set var="searchParams" value="customerName=${param.customerName}&productName=${param.productName }&timeBegin=${param.timeBegin}&timeEnd=${param.timeEnd}"/>
-				<%@ include file="../layout/pager.jsp" %>
-				<div class="section">
-					<a class="btn btn-default btn-lg" href="/sale/add">添加销售记录</a>
-				</div>
-
+								<a onclick="deleteProduct(${sale.saleId})" class="btn btn-primary">删除</a>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			<c:set var="searchParams" value="customerName=${param.customerName}&productName=${param.productName }&timeBegin=${param.timeBegin}&timeEnd=${param.timeEnd}"/>
+			<%@ include file="../layout/pager.jsp" %>
+			<div class="row-fluid">
+				<a class="btn btn-primary btn-lg" href="/sale/add" >添加销售记录</a>
+			</div>
+		</div>
+	</div>
 
 	<script type="text/javascript">
 		$('#timeBeginId').datetimepicker({
