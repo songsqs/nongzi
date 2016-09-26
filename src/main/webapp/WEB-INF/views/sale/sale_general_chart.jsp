@@ -15,74 +15,6 @@
 </head>
 
 <body>
-<%--
-	<div class="section">
-		<div class="row">
-			<div class="col-md-2">
-				<%@ include file="../layout/sidebar.jsp"%>
-			</div>
-			<div class="col-md-9">
-				<%@ include file="../layout/sale_nav.jsp" %>
-				<form action="" class="form-horizontal" role="form">
-					<table class="table">
-						<tbody>
-							<tr>
-								<td>
-									<div class="form-group">
-										<label for="customerName" class="col-sm-2 control-label">姓名</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" id="customerNameId"
-												name="customerName" placeholder="请输入姓名" value="${param.customerName}">
-										</div>
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<label for="productName" class="col-sm-2 control-label">产品</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" id="productNameId"
-												name="productName" placeholder="请输入产品名" value="${param.productName}">
-										</div>
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<label for="timeBeginId" class="col-sm-2 control-label">时间</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" id="timeBeginId"
-												name="timeBegin" placeholder="请选择时间" onfocus=this.blur() value="${param.timeBegin}">
-										</div>
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<label for="timeEndId" class="col-sm-2 control-label">至</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" id="timeEndId"
-												name="timeEnd" placeholder="请选择时间" onfocus=this.blur() value="${param.timeEnd}">
-										</div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="4">
-									<div class="form-group">
-										<input class="btn btn-default" type="submit" value="查询" />
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-
-				</form>
-				<div class="container-fluid">
-					<div id="general_sale_chart" style="width:100%;height:600px"></div>
-				</div>
-			</div>
-		</div>
-	</div>
- --%>
- 	
  	<%@ include file="../layout/sale_nav.jsp" %>
  	<div class="span12">
  		<div class="box-header" data-origin-title>
@@ -139,7 +71,9 @@
  		</div>
  		<div class="box-content">
  			<div class="row-fluid">
- 				<div id="general_sale_chart" style="width:100%;height:600px"></div>
+ 				<div class="box span12">
+	 				<div id="general_sale_chart" style="width:100%;height:600px"></div>
+ 				</div>
  			</div>
  		</div>
  	</div>
