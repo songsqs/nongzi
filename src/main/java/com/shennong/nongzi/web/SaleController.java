@@ -6,16 +6,25 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shennong.nongzi.common.utils.StringUtil;
 import com.shennong.nongzi.common.utils.web.Page;
+import com.shennong.nongzi.server.bean.entity.Customer;
+import com.shennong.nongzi.server.bean.entity.Product;
 import com.shennong.nongzi.server.bean.entity.Sale;
+import com.shennong.nongzi.server.bean.entity.ShiroUser;
+import com.shennong.nongzi.server.bean.enums.AccountTypeEnum;
+import com.shennong.nongzi.server.service.customer.CustomerService;
+import com.shennong.nongzi.server.service.product.ProductService;
 import com.shennong.nongzi.server.service.sale.SaleService;
 
 @Controller
@@ -25,7 +34,14 @@ public class SaleController {
 	@Autowired
 	private SaleService saleService;
 
+	@Autowired
+	private CustomerService customerService;
+
+	@Autowired
+	private ProductService productService;
+
 	@RequestMapping("list")
+	@RequiresRoles("admin")
 	public String getSale(HttpServletRequest request, Model model,
 			@RequestParam(value = "customerName", required = false) String customerName,
 			@RequestParam(value = "productName", required = false) String productName,
@@ -41,7 +57,7 @@ public class SaleController {
 
 		Page page = new Page(pageIndex, pageSize);
 
-		// 采用传递对象的方法操作page对象
+		// 閲囩敤浼犻�掑璞＄殑鏂规硶鎿嶄綔page瀵硅薄
 		List<Sale> saleList = saleService.getSaleListByParam(param, page);
 
 		model.addAttribute("saleList", saleList);
@@ -51,14 +67,33 @@ public class SaleController {
 	}
 
 	@RequestMapping("add")
-	public String addSale() {
+	@RequiresRoles("admin")
+	public String addSale(HttpServletRequest request, Model model) {
+
+		List<Customer> customerList = customerService.getAllCustomerList();
+		List<Product> productList = productService.getAllProductList();
+
+		model.addAttribute("customerList", customerList);
+		model.addAttribute("productList", productList);
+
 		return "sale/sale_add";
 	}
 
 	@RequestMapping(value = "add.do", method = RequestMethod.POST)
+	@ResponseBody
+	@RequiresRoles("admin")
 	public String addSaleDo(HttpServletRequest request, Sale sale) {
 		saleService.addSale(sale);
-		return "sale/sale_add";
+		return "success";
+	}
+
+	@RequestMapping(value = "delete.do", method = RequestMethod.POST)
+	@ResponseBody
+	@RequiresRoles("admin")
+	public String deleteSaleDo(HttpServletRequest request,
+			@RequestParam(value = "saleId", required = true) Integer saleId) {
+		int result = saleService.deleteSaleBySaleId(saleId);
+		return String.valueOf(result);
 	}
 
 	@RequestMapping("/chart/general")
@@ -82,6 +117,7 @@ public class SaleController {
 	}
 
 	@RequestMapping("/chart/product")
+	@RequiresRoles("admin")
 	public String getProductChart(HttpServletRequest request, Model model,
 			@RequestParam(value = "productId", required = false) Integer productId,
 			@RequestParam(value = "productName", required = false) String productName,
@@ -110,11 +146,22 @@ public class SaleController {
 
 		Map<String, Object> param = new HashMap<>();
 		param.put("customerId", customerId);
-		param.put("customerName", customerName);
-		param.put("timeBegin", timeBegin);
-		param.put("timeEnd", timeEnd);
+		param.put("customerName", StringUtil.realString(customerName));
+		param.put("timeBegin", StringUtil.realString(timeBegin));
+		param.put("timeEnd", StringUtil.realString(timeEnd));
+		
+		//增加客户权限验证
+		boolean isAdmin=false;
+		ShiroUser shiroUser=(ShiroUser) SecurityUtils.getSubject().getPrincipal();
+		if (shiroUser.getType() == AccountTypeEnum.CUSTOMER.getType()) {
+			isAdmin=false;
+			param.clear();
+			param.put("customerId", shiroUser.getUserId());
+			param.put("timeBegin", StringUtil.realString(timeBegin));
+			param.put("timeEnd", StringUtil.realString(timeEnd));
+		}
 
-		Map<String, String> optionMap = saleService.getSaleCustomerOptionByParam(param);
+		Map<String, String> optionMap = saleService.getSaleCustomerOptionByParam(param,isAdmin);
 
 		model.addAllAttributes(optionMap);
 

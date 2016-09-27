@@ -1,18 +1,3 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : localhost
-Source Server Version : 50631
-Source Host           : localhost:3306
-Source Database       : nongzi
-
-Target Server Type    : MYSQL
-Target Server Version : 50631
-File Encoding         : 65001
-
-Date: 2016-08-18 23:33:52
-*/
-
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -29,8 +14,8 @@ CREATE TABLE `customer` (
   `city` varchar(16) DEFAULT NULL COMMENT '客户居住地-市',
   `district` varchar(16) DEFAULT NULL COMMENT '客户居住地-区',
   `village` varchar(32) DEFAULT NULL COMMENT '客户居住地-村',
-  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `enable` tinyint(4) unsigned DEFAULT NULL COMMENT '是否有效(0:无效,1:有效)',
   PRIMARY KEY (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='客户表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='客户表';

@@ -8,7 +8,12 @@
 	</div>
 	<div>
 		<ul class="nav navbar-nav">
+			<shiro:hasRole name="admin">
 			<li><a href="/sale/list">销售列表</a></li>
+			</shiro:hasRole>
+			<shiro:hasRole name="normal">
+			<li><a href="/sale/chart/customer">销售列表</a></li>
+			</shiro:hasRole>
 			<li><a href="/customer/list">客户管理</a></li>
 			<li><a href="/product/list">产品管理</a></li>
 		</ul>
@@ -24,8 +29,13 @@
 					</button>
 					<ul class="dropdown-menu" role="menu"
 						aria-labelledby="dropdownmenu">
+						<shiro:hasRole name="normal">
+							<li role="presentation">
+								<a role="menuitem" tabindex="1" href="/customer/edit?customerId=<shiro:principal property="userId"/> ">个人信息管理</a>
+							</li>
+						</shiro:hasRole>
 						<li role="presentation"><a role="menuitem" tabindex="1"
-							href="#">修改密码</a></li>
+							href="/account/changePassword">修改密码</a></li>
 						<li role="presentation" class="divider"></li>
 						<li role="presentation"><a role="menuitem" tabindex="1"
 							href="/logout">退出</a></li>

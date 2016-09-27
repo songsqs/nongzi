@@ -7,6 +7,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,18 +31,27 @@ import com.shennong.nongzi.server.service.product.ProductService;
 public class ProductController {
 
 	@Autowired
-	ProductService productService;
+	private ProductService productService;
+	
+	private static final Logger logger=LoggerFactory.getLogger(ProductController.class);
 
 	@RequestMapping("add")
+	@RequiresRoles("admin")
 	public String addProduct() {
-		System.out.println("add product");
+		logger.info("addProduct");
 		return "product/product_add";
 	}
 
 	@RequestMapping(value = "add.do", method = RequestMethod.POST)
+	@RequiresRoles("admin")
 	public String addProductDo(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes,
 			Product product) {
-		return "product/product_add";
+		
+		logger.info("addProductDo,product:"+product);
+		
+		productService.addProduct(product);
+		
+		return "redirect:/product/list";
 	}
 
 	@RequestMapping(value = "list")
@@ -67,6 +79,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "edit")
+	@RequiresRoles("admin")
 	public String editProduct(HttpServletRequest request, Model model,
 			@RequestParam(value = "productId", required = true) Integer productId) {
 		Product product = productService.getProductByProductId(productId);
@@ -80,6 +93,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "edit.do", method = RequestMethod.POST)
+	@RequiresRoles("admin")
 	public String editProductDo(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes,
 			Product product) {
 		productService.updateProductByProductId(product);
@@ -88,6 +102,7 @@ public class ProductController {
 
 	@RequestMapping(value = "delete.do", method = RequestMethod.POST)
 	@ResponseBody
+	@RequiresRoles("admin")
 	public String deleteProductDo(HttpServletRequest request,
 			@RequestParam(value = "productId", required = true) Integer productId) {
 		int result = productService.deleteProductByProductId(productId);

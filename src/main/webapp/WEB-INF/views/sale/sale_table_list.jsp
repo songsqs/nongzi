@@ -120,9 +120,7 @@
 											value="${sale.createTime}" pattern="yyyy-MM-dd" /></td>
 									<td>
 										<div class="btn-group">
-											<a href="/product/edit?productId=${product.productId }"
-												class="btn btn-primary">编辑</a> <a
-												onclick="deleteProduct(${product.productId})"
+											 <a	onclick="deleteProduct(${sale.saleId})"
 												class="btn btn-primary">删除</a>
 										</div>
 									</td>
@@ -154,13 +152,13 @@
 			minView : 2,
 		});
 	
-		function deleteProduct(productIdParam) {
-			if(confirm("确定删除选中的产品？")){
+		function deleteProduct(saleIdParam) {
+			if(confirm("确定删除选中的记录？")){
 				$.ajax({
 					type : "post",
-					url : "/product/delete.do",
+					url : "/sale/delete.do",
 					data : {
-						productId : productIdParam
+						saleId : saleIdParam
 					},
 					success : function(msg) {
 						//对返回结果进行处理

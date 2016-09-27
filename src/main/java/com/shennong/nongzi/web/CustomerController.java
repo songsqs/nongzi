@@ -2,6 +2,7 @@ package com.shennong.nongzi.web;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +27,9 @@ import com.shennong.nongzi.common.exception.NongziException;
 import com.shennong.nongzi.common.utils.RES_STATUS;
 import com.shennong.nongzi.common.utils.web.Page;
 import com.shennong.nongzi.server.bean.entity.Customer;
+import com.shennong.nongzi.server.bean.entity.CustomerWithAccount;
+import com.shennong.nongzi.server.bean.entity.ShiroUser;
+import com.shennong.nongzi.server.bean.enums.AccountTypeEnum;
 import com.shennong.nongzi.server.service.customer.CustomerService;
 
 @Controller
@@ -34,11 +42,13 @@ public class CustomerController {
 	private static final DateFormat FORMATER = new SimpleDateFormat("yyyy-MM-dd");
 
 	@RequestMapping("add")
+	@RequiresRoles("admin")
 	public String addCustomer() {
 		return "customer/customer_add";
 	}
 
 	@RequestMapping(value = "add.do", method = RequestMethod.POST)
+	@RequiresRoles("admin")
 	public String addCustomerDo(Customer customer) {
 		customerService.addCustomer(customer);
 		return "redirect:/customer/list";
@@ -61,21 +71,41 @@ public class CustomerController {
 
 		List<Customer> customerList = customerService.getCustomerListByParam(param, page);
 
-		model.addAttribute("customerList", customerList);
+		List<CustomerWithAccount> customerWithAccountList = customerService.conversionCustomerWithAccount(customerList);
+
+		model.addAttribute("customerList", customerWithAccountList);
 		model.addAttribute("page", page);
 
 		return "customer/customer_list";
 	}
 
 	@RequestMapping("edit")
+	@RequiresRoles(value = { "admin", "normal" }, logical = Logical.OR)
 	public String editProduct(HttpServletRequest request, Model model,
 			@RequestParam(value = "customerId", required = true) Integer customerId) {
-		Customer customer = customerService.getCustomerByCustomerId(customerId);
-		if (customer == null) {
-			throw new NongziException(RES_STATUS.SERVER_UNKONW_ERROR);
+		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+
+		// 如果用户不是管理员账户,则只能编辑自己的信息
+		if (Integer.valueOf(AccountTypeEnum.ADMIN.getType()).equals(shiroUser.getType()) == false) {
+			customerId = shiroUser.getUserId();
+			if (customerId == null) {
+				throw new NongziException(RES_STATUS.CUSTOMER_NOT_EXITED);
+			}
 		}
 
-		model.addAttribute("customer", customer);
+		Customer customer = customerService.getCustomerByCustomerId(customerId);
+		if (customer == null) {
+			throw new NongziException(RES_STATUS.CUSTOMER_NOT_EXITED);
+		}
+		
+		List<CustomerWithAccount> customerWithAccountList = customerService
+				.conversionCustomerWithAccount(Arrays.asList(customer));
+
+		if (CollectionUtils.isEmpty(customerWithAccountList)) {
+			throw new NongziException(RES_STATUS.CUSTOMER_NOT_EXITED);
+		}
+
+		model.addAttribute("customer", customerWithAccountList.get(0));
 		Date birthday = customer.getBirthday();
 		if (birthday != null) {
 			model.addAttribute("birthday", FORMATER.format(customer.getBirthday()));
@@ -85,7 +115,19 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value = "edit.do", method = RequestMethod.POST)
+	@RequiresRoles(value = { "admin", "normal" }, logical = Logical.OR)
 	public String editCustomerDo(Customer customer) {
+		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+
+		// 如果不是管理员账户,则只能编辑自己的信息
+		if (Integer.valueOf(AccountTypeEnum.ADMIN.getType()).equals(shiroUser.getType()) == false) {
+			Integer customerId = shiroUser.getUserId();
+			if (customerId == null) {
+				throw new NongziException(RES_STATUS.CUSTOMER_NOT_EXITED);
+			}
+			customer.setCustomerId(customerId);
+		}
+
 		customerService.updateCustomerByCustomerId(customer);
 		
 		return "redirect:/customer/list";
@@ -93,6 +135,7 @@ public class CustomerController {
 
 	@RequestMapping(value = "delete.do", method = RequestMethod.POST)
 	@ResponseBody
+	@RequiresRoles("admin")
 	public String deleteCustomerDo(HttpServletRequest request,
 			@RequestParam(value = "customerId", required = true) Integer customerId) {
 		int result = customerService.deleteCustomerByCustomerId(customerId);

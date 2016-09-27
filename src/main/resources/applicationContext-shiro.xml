@@ -31,12 +31,6 @@
 		</property>
 	</bean>
 	
-	<!-- remember me filter, add session info if user checked remember me -->
-	<!-- 
-	<bean id="rememberMeFilter" class="com.ucredit.push.background.util.sso.RembermeFilter" depends-on="userMybatisDao">
-		<property name="accountService" ref="accountService"/>
-	</bean>
-	 -->
 	
 	<!-- 用户授权信息Cache, 采用EhCache -->
 	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">

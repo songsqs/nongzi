@@ -83,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	private String generateSignKey(Product product) {
-		return product.getName();
+		return product.getName()+"^|"+product.getManufacturer();
 	}
 
 	@Override

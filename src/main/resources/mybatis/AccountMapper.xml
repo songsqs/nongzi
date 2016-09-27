@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.shennong.nongzi.server.bean.entity.Account" >
     <id column="account_id" property="accountId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -11,7 +12,7 @@
     <result column="enable" property="enable" jdbcType="BIT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    account_id, name, password, type, create_time, update_time, enable
+    account_id, name, customer_id, password, type, create_time, update_time, enable
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,10 +25,10 @@
     where account_id = #{accountId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.shennong.nongzi.server.bean.entity.Account" useGeneratedKeys="true" keyProperty="accountId" >
-    insert into account (name, password, type, 
+    insert into account (name, customer_id, password, type, 
       create_time, update_time, enable
       )
-    values (#{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+    values (#{name,jdbcType=VARCHAR}, #{customerId,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{enable,jdbcType=BIT}
       )
   </insert>
@@ -36,6 +37,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="name != null" >
         name,
+      </if>
+      <if test="customerId != null">
+      	customer_id,
       </if>
       <if test="password != null" >
         password,
@@ -56,6 +60,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+      	#{customerId,jdbcType=INTEGER},
       </if>
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
@@ -80,6 +87,9 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="customerId != null">
+      	customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
       </if>
@@ -101,6 +111,7 @@
   <update id="updateByPrimaryKey" parameterType="com.shennong.nongzi.server.bean.entity.Account" >
     update account
     set name = #{name,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=INTEGER},
       password = #{password,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -114,6 +125,38 @@
   	from account 
   	where 
   		name=#{name}
+  	and 
+  		enable = 1
+  </select>
+  
+  <select id="selectCustomerIdListByCustomerIdList" resultType="java.lang.Integer">
+	select
+	customer_id
+	from account
+	where
+	customer_id in
+	<foreach collection="list" item="item" index="index" open="("
+		separator="," close=")">
+		#{item}
+	</foreach>
+  </select>
+  
+  <select id="selectAccountByAccountId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from account
+  	where 
+  		account_id = #{accountId}
+  	and 
+  		enable = 1
+  </select>
+  
+  <select id="selectAccountByCustomerId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from account 
+  	where 
+  		customer_id = #{customerId}
   	and 
   		enable = 1
   </select>

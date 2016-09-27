@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
@@ -80,7 +81,9 @@
 								<th>市</th>
 								<th>区(乡)</th>
 								<th>村</th>
+								<shiro:hasRole name="admin">
 								<th>操作</th>
+								</shiro:hasRole>
 							</tr>
 						</thead>
 						<tbody>
@@ -100,14 +103,19 @@
 									<td style="font-size: 150%">${customer.city}</td>
 									<td style="font-size: 150%">${customer.district}</td>
 									<td style="font-size: 150%">${customer.village}</td>
+									<shiro:hasRole name="admin">
 									<td>
 										<div class="btn-group">
 											<a href="/customer/edit?customerId=${customer.customerId }"
 												class="btn btn-primary">编辑</a> <a
 												onclick="deleteCustomer(${customer.customerId})"
 												class="btn btn-primary">删除</a>
+											<c:if test = "${!customer.hasAccount}">
+												<a class="btn btn-primary" onclick="createAccountForCustomer(${customer.customerId})">创建账户</a>
+											</c:if>
 										</div>
 									</td>
+									</shiro:hasRole>
 								</tr>
 							</c:forEach>
 
@@ -116,9 +124,11 @@
 				</div>
 				<c:set var="searchParams" value="name=${param.name}&mobile=${param.mobile}&village=${param.village}" />
 				<%@ include file="../layout/pager.jsp" %>
+				<shiro:hasRole name="admin">
 				<div class="section">
 					<a class="btn btn-default btn-lg" href="/customer/add">添加客户</a>
 				</div>
+				</shiro:hasRole>
 			</div>
 		</div>
 	</div>
@@ -135,6 +145,30 @@
 					success : function(msg) {
 						//对返回结果进行处理
 						alert("修改成功");
+						window.location.reload();
+					}
+				});
+			}else{
+				return false;
+			}
+		}
+		
+		function createAccountForCustomer(customerIdParam){
+			if(confirm("确定为选定的客户创建帐号？")){
+				$.ajax({
+					type:"post",
+					url:"/account/createCustomerAccount.do",
+					data:{
+						customerId:customerIdParam
+					},
+					success:function(msg){
+						//对返回结果进行处理
+						alert("创建账户成功");
+						window.location.reload();
+					},
+					error:function(msg){
+						//对返回结果进行处理
+						alert("创建账户失败,如果多次失败，请与管理员联系");
 						window.location.reload();
 					}
 				});
